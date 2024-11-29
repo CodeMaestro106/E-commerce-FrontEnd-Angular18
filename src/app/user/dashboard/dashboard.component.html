@@ -1,0 +1,145 @@
+<div class="container py-5">
+  <!-- Top Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0">Product Collection</h4>
+    <div class="d-flex gap-2 align-items-center">
+      <span class="text-muted">Sort by:</span>
+      <button
+        class="sort-btn dropdown-toggle"
+        type="button"
+        id="sortMenubutton"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        [textContent]="orderItem$.value"
+      ></button>
+      <ul class="dropdown-menu" aria-labelledby="sortMenubutton">
+        <li>
+          <a class="dropdown-item" (click)="changeSortOrder(OrderItem.NEWEST)">
+            Newset
+          </a>
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="changeSortOrder(OrderItem.PRICE_ASC)"
+          >
+            Price: Low to High
+          </a>
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            (click)="changeSortOrder(OrderItem.PRICE_DSC)"
+          >
+            Price: High to Low
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Filters Sidebar -->
+    <div class="col-lg-3">
+      <div class="filter-sidebar p-4 shadow-sm">
+        <div class="filter-group">
+          <h6 class="mb-3">Categories</h6>
+          <div
+            class="form-check mb-2"
+            *ngFor="let category of categories$ | async"
+          >
+            <input
+              #categoryCheckbox
+              class="form-check-input"
+              type="checkbox"
+              id="'category-id-'{{ category.id }}"
+              (change)="toggleCategory(category.id, categoryCheckbox.checked)"
+            />
+            <label
+              class="form-check-label"
+              for="'category-id-'{{ category.id }}"
+            >
+              {{ category.name }}
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h6 class="mb-3">Price Range</h6>
+          <input
+            #rangePrice
+            id="priceRange"
+            type="range"
+            class="form-range"
+            [min]="0"
+            [max]="maxPrice"
+            [value]="priceFilter$.value"
+            (input)="onPriceChange(rangePrice.value)"
+          />
+          <div class="d-flex justify-content-between">
+            <span class="text-muted">$0</span>
+            <span class="text-muted">${{ maxPrice }}</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h6 class="mb-3">Colors</h6>
+          <div class="d-flex gap-2">
+            <div
+              class="color-option selected"
+              style="background: #000000"
+            ></div>
+            <div class="color-option" style="background: #dc2626"></div>
+            <div class="color-option" style="background: #2563eb"></div>
+            <div class="color-option" style="background: #16a34a"></div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h6 class="mb-3">Rating</h6>
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="rating"
+              id="rating4"
+            />
+            <label class="form-check-label" for="rating4">
+              <i class="bi bi-star-fill text-warning"></i>
+              4 & above
+            </label>
+          </div>
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="rating"
+              id="rating3"
+            />
+            <label class="form-check-label" for="rating3">
+              <i class="bi bi-star-fill text-warning"></i>
+              3 & above
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-outline-primary w-100">Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="col-lg-9">
+      <div class="row g-4 d-flex justify-content-center align-items-center">
+        <!-- Product Card 1 -->
+        <div class="col-md-4" *ngFor="let item of products$ | async">
+          <app-product-card-component
+            [product]="item"
+            (addProductInWishListEvent)="addProductInWishList(item)"
+            (gotoCartEvent)="gotoCart(item)"
+            (gotoProductDetailEvent)="gotoProductDetail(item)"
+          ></app-product-card-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

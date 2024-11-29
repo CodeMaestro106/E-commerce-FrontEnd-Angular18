@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <a href="#" class="navbar-brand">E-commerce</a>
+  <div *ngIf="isLoggedIn$ | async">
+    <ul
+      class="navbar-nav mr-auto"
+      routerLinkActive="active"
+      *ngIf="role === 'ADMIN'; else userBoard"
+    >
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Admin
+        </a>
+        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <li>
+            <a class="dropdown-item nav-link" routerLink="/admin/categories">
+              Category
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item nav-link" routerLink="/admin/products">
+              Product
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item nav-link" routerLink="/admin/cart">Cart</a>
+          </li>
+          <li>
+            <a class="dropdown-item nav-link" routerLink="/admin/order">
+              Order
+            </a>
+          </li>
+          <li><hr class="dropdown-divider bg-white" /></li>
+          <li>
+            <a class="dropdown-item nav-link" routerLink="/admin/users">User</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ng-template #userBoard>
+      <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li>
+          <a class="dropdown-item nav-link" routerLink="/cart">Cart</a>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+
+  <ul
+    class="navbar-nav ms-auto me-3"
+    *ngIf="!(isLoggedIn$ | async); else authenicatedBoard"
+  >
+    <li class="nav-item">
+      <a routerLink="/register" class="nav-link" routerLink="register">
+        Sign Up
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/login" class="nav-link" routerLink="login">Login</a>
+    </li>
+  </ul>
+  <ng-template #authenicatedBoard>
+    <ul class="navbar-nav ms-auto me-3">
+      <li class="nav-item">
+        <a routerLink="/profile" class="nav-link" routerLink="profile">
+          {{ username }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink class="nav-link" (click)="logout()">LogOut</a>
+      </li>
+    </ul>
+  </ng-template>
+</nav>

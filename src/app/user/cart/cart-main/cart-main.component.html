@@ -1,0 +1,48 @@
+<div class="container">
+  <ng-container *ngIf="cartItems$ | async as items">
+    <div class="card m-5">
+      <div class="card-header row">
+        <div class="col d-flex justify-content-start align-content-center">
+          <!-- Continue Shopping Button -->
+          <div class="text-start ml-auto">
+            <button class="btn btn-outline-primary" (click)="goBack()">
+              <i class="bi bi-arrow-left me-2"></i>
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center align-content-center">
+          <h1>My cart 🛒</h1>
+        </div>
+        <div class="col d-flex justify-content-end align-content-center">
+          <!-- Continue Shopping Button -->
+          <div class="text-start ml-auto">
+            <button class="btn btn-outline-primary" (click)="goBack()">
+              Check Out
+              <i class="bi bi-arrow-right me-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-container">
+        <span *ngIf="items.length === 0">Empty cart 🕵🏻</span>
+        <div class="d-flex justify-content-end">
+          <p *ngIf="items.length > 0">
+            Total: {{ totalPrice$ | async | currency }}
+          </p>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngFor="let item of items">
+            <app-cart-item
+              [cartItem]="item"
+              (reduceItemInCartEvent)="reduceItem(item)"
+              (removeItemInCartEvent)="removeItem(item)"
+              (increaseItemInCartEvent)="increaseItem(item)"
+            ></app-cart-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

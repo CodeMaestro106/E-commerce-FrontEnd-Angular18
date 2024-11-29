@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-9 d-flex align-items-center justify-content-center p-1">
+    <div class="row">
+      <!-- Image Column -->
+      <div class="col-md-4 d-flex justify-content-center align-items-center">
+        <img
+          src="{{ cartItem.Product.imgUrl }}"
+          alt="product image"
+          class="img-fluid shadow-sm rounded"
+        />
+      </div>
+      <div
+        class="col-md-8 d-flex justify-content-center align-items-center m-0"
+      >
+        <!-- Product Name Column -->
+        <div class="col d-flex justify-content-center align-items-center m-3">
+          <p class="m-0 text-center">
+            {{ cartItem.Product.name }}
+          </p>
+        </div>
+
+        <!-- Product Price Column -->
+        <div class="col d-flex justify-content-center align-items-center m-3">
+          <p class="m-0 text-center text-bg-danger">
+            Price: ${{ cartItem.Product.price }}
+          </p>
+        </div>
+
+        <!-- Product Stock Column -->
+        <div class="col d-flex justify-content-center align-items-center m-3">
+          <p class="m-0 text-center text-bg-primary">
+            Stock: {{ cartItem.Product.stock }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 d-flex justify-content-center align-items-center">
+    <div class="input-group d-flex justify-content-center align-items-center">
+      <button
+        class="btn btn-outline-secondary btn-md"
+        type="button"
+        (click)="increaseItemInCart()"
+      >
+        +
+      </button>
+      <input
+        style="max-width: 100px"
+        type="text"
+        class="form-control form-control-md text-center quantity-input"
+        value="{{ cartItem.quantity }}"
+        disabled
+      />
+      <button
+        class="btn btn-outline-secondary btn-md"
+        type="button"
+        (click)="reduceItemInCart()"
+      >
+        -
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-1 d-flex justify-content-center align-items-center">
+    <button
+      class="btn btn-md btn-outline-danger m-3"
+      (click)="removeItemFromCart()"
+    >
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+
+  <hr />
+</div>

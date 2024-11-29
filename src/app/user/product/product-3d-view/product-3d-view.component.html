@@ -1,0 +1,15 @@
+<!-- modal.component.html -->
+<div *ngIf="isOpen" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Product 3d View</h2>
+      <button class="btn btn-danger sm" (click)="onClose()">X</button>
+    </div>
+    <div class="modal-body">
+      <div id="container-3d" style="width: 100%; height: 500px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="onClose()">Ok</button>
+    </div>
+  </div>
+</div>

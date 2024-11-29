@@ -1,0 +1,77 @@
+<div
+  class="container height-100 d-flex justify-content-center align-items-center"
+>
+  <div class="position-relative">
+    <div class="card p-2 text-center">
+      <h6>
+        Please enter the one time password
+        <br />
+        to verify your account
+      </h6>
+      <div>
+        <span>A code has been sent to</span>
+        <small id="maskedNumber">*******9897</small>
+      </div>
+
+      <form [formGroup]="otpForm">
+        <div
+          id="otp"
+          class="inputs d-flex flex-row justify-content-center mt-2"
+          (paste)="onPaste($event)"
+        >
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="first"
+          />
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="second"
+          />
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="third"
+          />
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="fourth"
+          />
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="fifth"
+          />
+          <input
+            class="m-2 text-center form-control rounded"
+            type="text"
+            maxlength="1"
+            formControlName="sixth"
+          />
+        </div>
+        <div class="mt-4">
+          <button
+            id="validateBtn"
+            class="btn btn-danger px-4 validate"
+            (click)="login()"
+          >
+            Validate
+          </button>
+        </div>
+        <div class="form-group" *ngIf="error$ | async as error">
+          <br />
+          <div class="alert alert-danger" role="alert">
+            Login failed: {{ error$ | async }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

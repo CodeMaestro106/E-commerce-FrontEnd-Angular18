@@ -1,0 +1,135 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col d-flex justify-content-start align-content-center">
+      <!-- Continue Shopping Button -->
+      <div class="text-start ml-auto mb-3">
+        <button class="btn btn-outline-primary" (click)="goBack()">
+          <i class="bi bi-arrow-left me-2"></i>
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Product Images -->
+    <div class="col-md-6 mb-4">
+      <img
+        src="{{ mainImage.src }}"
+        alt="mainImage"
+        class="img-fluid rounded mb-3 ml-auto product-image"
+        id="mainImage"
+        (click)="open3dViewModal()"
+      />
+      <div class="d-flex justify-content-center align-items-center">
+        <img
+          *ngFor="let subImage of Images"
+          src="{{ subImage.src }}"
+          [class.active]="subImage.id === mainImage.id"
+          (click)="changeImage(subImage.id, subImage.src)"
+          alt="mainImage"
+          class="thumbnail rounded"
+          id="mainImage"
+        />
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h2 class="mb-3">{{ product.name }}</h2>
+      <p class="text-muted mb-4">SKU: WH1000XM4</p>
+      <div class="mb-3">
+        <span class="h4 me-2">${{ product.price }}</span>
+        <span class="text-muted">
+          <s>${{ product.price }}</s>
+        </span>
+      </div>
+      <div class="mb-3">
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-half text-warning"></i>
+        <span class="ms-2">4.5 (120 reviews)</span>
+      </div>
+      <p class="mb-4">
+        Experience premium sound quality and industry-leading noise cancellation
+        with these wireless headphones. Perfect for music lovers and frequent
+        travelers.
+      </p>
+      <div class="mb-4">
+        <h5>Color:</h5>
+        <div class="btn-group" role="group" aria-label="Color selection">
+          <input
+            type="radio"
+            class="btn-check"
+            name="color"
+            id="black"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-dark" for="black">Black</label>
+          <input
+            type="radio"
+            class="btn-check"
+            name="color"
+            id="silver"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-secondary" for="silver">Silver</label>
+          <input
+            type="radio"
+            class="btn-check"
+            name="color"
+            id="blue"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="blue">Blue</label>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="quantity" class="form-label">
+          Stock: {{ product.stock }}
+        </label>
+      </div>
+
+      <div class="mb-4">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="quantity"
+          value="1"
+          min="1"
+          max="{{ product.stock }}"
+          style="width: 80px"
+          #quantityInput
+        />
+      </div>
+      <button
+        class="btn btn-primary btn-lg mb-3 me-2"
+        (click)="gotoCart(product.id, quantityInput.value)"
+      >
+        <i class="bi bi-cart-plus"></i>
+        Add to Cart
+      </button>
+      <button class="btn btn-outline-secondary btn-lg mb-3">
+        <i class="bi bi-heart"></i>
+        Add to Wishlist
+      </button>
+      <div class="mt-4">
+        <h5>Key Features:</h5>
+        <ul>
+          <li>Industry-leading noise cancellation</li>
+          <li>30-hour battery life</li>
+          <li>Touch sensor controls</li>
+          <li>Speak-to-chat technology</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- view modal -->
+  <app-product-3d-view
+    [isOpen]="(show3dViewModal$ | async) || false"
+    (close)="close3dViewModal()"
+  ></app-product-3d-view>
+</div>
