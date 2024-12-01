@@ -42,8 +42,6 @@ export class AuthEffects {
         this.authService.login(action.email, action.password).pipe(
           map((response) => {
             console.log(response);
-            // return this.router.navigate(['verify-otp']);
-            // return loginSuccess({ user: response.user, token: response.token });
 
             return sendOtp({ email: action.email, password: action.password });
           }),
@@ -77,12 +75,16 @@ export class AuthEffects {
   verifyOtp$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(verifyOtp), // Ensure you're listening for the 'login' action
-      tap(() => console.log('Login effect triggered')),
+      tap(() => console.log('Login verify otp effect triggered')),
       switchMap((action) =>
         this.authService.verifyOtp(action.email, action.otp).pipe(
           map((response) => {
             console.log(response);
-            return loginSuccess({ user: response.user, token: response.token });
+            return loginSuccess({
+              user: response.user,
+              token: response.accessToken,
+              refreshToken: response.refreshToken,
+            });
           }),
           catchError((error) => {
             console.log(error);
@@ -125,10 +127,12 @@ export class AuthEffects {
         ofType(loginSuccess),
         tap(() => {
           this.store.select(selectUser).subscribe((user) => {
+            console.log('Effect user => ', user);
+
             this.authStoreService.saveUser(user);
-            this.router.navigate(['/dashboard']).then(() => {
-              window.location.reload(); // Force page reload after navigation
-            });
+            this.router
+              .navigate(['/dashboard'])
+              .then(() => window.location.reload());
           });
         }),
       ),

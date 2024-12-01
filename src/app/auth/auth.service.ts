@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-const USER_KEY = 'user';
 
 @Injectable({
   providedIn: 'root',
@@ -41,10 +39,27 @@ export class AuthService {
   verifyOtp(
     email: string,
     otp: string,
-  ): Observable<{ user: any; token: string }> {
-    return this.http.post<{ user: any; token: string }>(
-      `${this.apiUrl}/verify-otp`,
-      { email, otp },
+  ): Observable<{ user: any; accessToken: string; refreshToken: string }> {
+    return this.http.post<{
+      user: any;
+      accessToken: string;
+      refreshToken: string;
+    }>(`${this.apiUrl}/verify-otp`, { email, otp });
+  }
+
+  refreshToken(
+    refreshToken: string,
+  ): Observable<{ accessToken: string; refreshToken: string }> {
+    alert('auth service is ' + refreshToken);
+
+    // Create custom headers if needed
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Set content type to JSON
+    });
+
+    return this.http.post<{ accessToken: string; refreshToken: string }>(
+      `${this.apiUrl}/refresh-token`,
+      { refreshToken }
     );
   }
 }

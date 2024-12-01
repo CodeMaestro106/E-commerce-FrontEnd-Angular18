@@ -79,11 +79,11 @@ export class ProductDetailComponent implements OnInit {
     this.location.back();
   }
   open3dViewModal(): void {
-    this.show3dViewModal$.next(true);
+    // this.show3dViewModal$.next(true);
   }
 
   close3dViewModal(): void {
-    this.show3dViewModal$.next(false);
+    //   this.show3dViewModal$.next(false);
   }
 
   gotoCart(productId: number, quantity: string): void {

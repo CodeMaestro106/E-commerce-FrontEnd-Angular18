@@ -30,7 +30,6 @@ export class Product3dViewComponent {
   }
 
   ngOnInit(): void {
-    console.log('3d');
     this.init3DScene();
     this.load3DModel();
     window.addEventListener('resize', this.onWindowResize.bind(this), false);

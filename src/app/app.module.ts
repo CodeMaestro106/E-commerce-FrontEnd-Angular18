@@ -35,12 +35,13 @@ import { OtpComponent } from './common/otp/otp.component';
     StoreModule.forRoot(),
     StoreModule.forFeature(authFeatureKey, authReducer),
     EffectsModule.forFeature([AuthEffects]),
-    HttpClientModule, // HTTP client module to handle API calls
     StoreDevtoolsModule.instrument(), // Optional: for debugging NgRx state
     EffectsModule.forRoot([]), // Add effects module for handling side effects.
     AppRoutingModule, // The routing configuration
     ReactiveFormsModule,
-    //------------
+    HttpClientModule, // HTTP client module to handle API calls
+
+    //-----------
     UserModule,
     AdminModule,
     FormsModule,

@@ -1,7 +1,14 @@
 .product-image {
   max-height: 400px;
   object-fit: cover;
+  cursor: pointer;
+  border-radius: 10;
+  border-color: dodgerblue;
+  border-style: solid;
 }
+
+
+
 .thumbnail {
   width: 80px;
   height: 80px;

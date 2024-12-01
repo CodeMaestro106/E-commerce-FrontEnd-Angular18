@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Category } from '../category/category.type';
 import * as CategoryActions from '../category/category.actions';
 
@@ -44,6 +44,7 @@ export class DashboardComponent {
     private store: Store,
     private router: Router,
     private storageService: AuthStorageService,
+    private cdRef: ChangeDetectorRef,
   ) {
     // Fetching categories and products
     this.categories$ = this.store.select(selectCategoryItems);
@@ -55,15 +56,33 @@ export class DashboardComponent {
       this.priceFilter$,
       this.orderItem$,
     ]).pipe(
-      tap(([products]) => {
+      tap(([products, selectedCategories]) => {
         // Set maxPrice only once when products are available
-        if (products.length > 0 && this.maxPrice === 0) {
-          // Set the max price value from the products list
-          this.maxPrice = Math.max(
-            ...products.map((product) => product.price),
-            0,
+
+        if (products.length > 0) {
+          // Filter the products based on selected categories
+          const filteredProducts = products.filter(
+            (product) =>
+              selectedCategories.length === 0 ||
+              selectedCategories.includes(product.categoryId),
           );
-          this.priceFilter$.next(this.maxPrice); // Only set this once initially
+
+          console.log(filteredProducts);
+
+          if (filteredProducts.length > 0) {
+            const newMaxPrice = Math.max(
+              ...filteredProducts.map((product) => product.price),
+              0,
+            );
+
+            // Only update maxPrice if it has changed
+            if (this.maxPrice !== newMaxPrice) {
+              this.maxPrice = newMaxPrice;
+              this.priceFilter$.next(this.maxPrice); // Trigger price filter update
+            }
+
+            this.cdRef.detectChanges(); // Manually trigger change detection
+          }
         }
       }),
       map(([products, selectedCategories, maxPrice, orderItem]) => {

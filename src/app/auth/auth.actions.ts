@@ -19,7 +19,7 @@ export const sendOtp = createAction(
 // Action for successful login
 export const loginSuccess = createAction(
   '[Auth] Login Success',
-  props<{ user: any; token: string }>(), // Payload containing user data and auth token
+  props<{ user: any; token: string; refreshToken: string }>(), // Payload containing user data and auth token
 );
 
 // Action for failed login attempt

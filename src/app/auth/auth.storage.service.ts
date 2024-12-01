@@ -23,6 +23,12 @@ export class AuthStorageService {
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
+  public storeTokens(accessToken: string, refreshToken: string): void {
+    const user = JSON.parse(window.sessionStorage.getItem(USER_KEY) || '{}');
+    user.refreshToekn = refreshToken;
+    user.accessToken = accessToken;
+  }
+
   //Decode the JWT token and check its expiration time
   public isTokenExpired(): boolean {
     if (!this.getUser()) {
@@ -44,15 +50,21 @@ export class AuthStorageService {
   }
 
   public getUserRole(): any {
-    const token = this.getUser().token;
-    if (!token) return null;
+    const user = this.getUser();
+    if (!user) return null;
 
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded: any = jwtDecode(user.token);
       return decoded.role;
-    }catch(error){
+    } catch (error) {
       return null;
     }
+  }
+
+  public getRefreshToken(): any {
+    const user = this.getUser();
+
+    return user ? user.refreshToken : null;
   }
 
   // Return user information from session storage

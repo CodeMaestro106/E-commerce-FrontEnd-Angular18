@@ -21,11 +21,11 @@ export const authReducer = createReducer(
     loading: true,
   })),
 
-  on(AuthActions.loginSuccess, (state, { user, token }) => {
+  on(AuthActions.loginSuccess, (state, { user, token, refreshToken }) => {
     // Store in localStorage
     return {
       ...state,
-      user: { ...user, token }, // update user data and token
+      user: { ...user, token, refreshToken }, // update user data and token
       error: null,
       loading: false,
       isAuthenicated: true,
@@ -69,5 +69,5 @@ export const authReducer = createReducer(
       error,
       loading: false,
     };
-  })
+  }),
 );

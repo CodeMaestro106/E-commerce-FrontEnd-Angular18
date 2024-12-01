@@ -20,6 +20,7 @@ export class CartEffect {
   addItemInCart$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(addItemInCart),
+      tap(() => console.log('add Item cart ')),
       mergeMap((action) =>
         this.cartService
           .addProductToCart(action.productId, action.quantity)
@@ -70,6 +71,17 @@ export class CartEffect {
       ),
     { dispatch: false },
   );
+
+  // getItemsInCartFailure$ = createEffect(
+  //   () =>
+  //     inject(Actions).pipe(
+  //       ofType(getItemsInCartFailure),
+  //       tap(() => {
+  //         this.router.navigate(['/']);
+  //       }),
+  //     ),
+  //   { dispatch: false },
+  // );
 
   constructor(
     private actions$: Actions,
