@@ -50,12 +50,6 @@ export class AuthService {
   refreshToken(
     refreshToken: string,
   ): Observable<{ accessToken: string; refreshToken: string }> {
-    alert('auth service is ' + refreshToken);
-
-    // Create custom headers if needed
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json', // Set content type to JSON
-    });
 
     return this.http.post<{ accessToken: string; refreshToken: string }>(
       `${this.apiUrl}/refresh-token`,

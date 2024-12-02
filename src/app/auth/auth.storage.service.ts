@@ -25,8 +25,9 @@ export class AuthStorageService {
 
   public storeTokens(accessToken: string, refreshToken: string): void {
     const user = JSON.parse(window.sessionStorage.getItem(USER_KEY) || '{}');
-    user.refreshToekn = refreshToken;
+    user.refreshToken = refreshToken;
     user.accessToken = accessToken;
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   //Decode the JWT token and check its expiration time
