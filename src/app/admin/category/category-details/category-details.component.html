@@ -1,15 +1,23 @@
 <div class="card card-container">
-  <div class="card-header">
-    <h3>Category Details</h3>
+  <div class="card-header row">
+    <div class="col-8">
+      <h3>Category Details</h3>
+    </div>
+    <div class="col-4 d-flex justify-content-end">
+      <button class="btn btn-info" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+        Go Back
+      </button>
+    </div>
   </div>
   <div class="card-body">
-    <form name="form" novalidate>
+    <form name="form" novalidate *ngIf="category$ | async as category">
       <div class="form-group">
         <label for="id">ID:</label>
         <input
           type="text"
           class="form-control"
-          [placeholder]="category.id"
+          [placeholder]="category?.id"
           readonly
         />
       </div>
@@ -18,7 +26,7 @@
         <input
           type="text"
           class="form-control"
-          [placeholder]="category.name"
+          [placeholder]="category?.name"
           readonly
         />
       </div>
@@ -27,7 +35,7 @@
         <input
           type="text"
           class="form-control"
-          [placeholder]="category.createdAt | date : 'yyyy-MM-dd'"
+          [placeholder]="category?.createdAt | date: 'yyyy-MM-dd'"
           readonly
         />
       </div>
@@ -36,7 +44,7 @@
         <input
           type="text"
           class="form-control"
-          [placeholder]="category.updatedAt | date : 'yyyy-MM-dd'"
+          [placeholder]="category?.updatedAt | date: 'yyyy-MM-dd'"
           readonly
         />
       </div>

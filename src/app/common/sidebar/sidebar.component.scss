@@ -1,0 +1,33 @@
+.sidebar {
+  min-width: 100px;
+  color: black;
+  padding: 20px 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+  height: 100%;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  color: black;
+  text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}

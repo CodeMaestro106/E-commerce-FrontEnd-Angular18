@@ -26,6 +26,7 @@
           alt="mainImage"
           class="product-image img-fluid rounded ml-auto mb-3 p-3"
           id="mainImage"
+          (click)="open3dViewModal()"
         />
       </div>
       <div class="d-flex justify-content-center align-items-center">
@@ -136,8 +137,10 @@
     </div>
   </div>
   <!-- view modal -->
-  <app-product-3d-view
-    [isOpen]="(show3dViewModal$ | async) || false"
-    (close)="close3dViewModal()"
-  ></app-product-3d-view>
+  <ng-template>
+    <app-product-3d-view
+      [isOpen]="(show3dViewModal$ | async) || false"
+      (close)="close3dViewModal()"
+    ></app-product-3d-view>
+  </ng-template>
 </div>

@@ -1,48 +1,16 @@
-/* modal.component.css */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  // background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  // width: 400px;
-  max-width: 90%;
-  background-color: #222;
+#modal-3d-container {
+  width: 100%; /* or any fixed size like 500px */
+  height: 500px; /* or 100vh if you want the modal to cover the full height */
+  overflow: hidden;
+  position: relative;
+  z-index: 9999; /* Ensure the modal is above other elements */
+  position: relative;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-#container-3d {
-  width: 100%;
-  height: 500px;
-  margin: 0 auto;
-  display: block;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: green;
-  animation: borderColorOpacity 3s infinite;
-  transition:
-    border,
-    all linear 0.5s;
 }
 
 @keyframes borderColorOpacity {
@@ -66,4 +34,38 @@
 .modal-footer {
   display: flex;
   justify-content: flex-end;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure modal appears on top */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  max-height: 600px;
+  width: 90%; /* Adjust to desired width */
+  overflow: auto;
+}
+
+.modal-body {
+  height: 400px; /* Adjust the height as per your requirement */
+}
+
+#modal-3d-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0; /* Optional background color */
+  position: relative;
 }

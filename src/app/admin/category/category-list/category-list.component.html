@@ -21,11 +21,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of categories$ | async">
-        <td>{{ category.id }}</td>
+      <tr *ngFor="let category of categories$ | async; let i = index">
+        <td>{{ i + 1 }}</td>
         <td>{{ category.name }}</td>
-        <td>{{ category.createdAt | date : "yyyy-MM-dd" }}</td>
-        <td>{{ category.updatedAt | date : "yyyy-MM-dd" }}</td>
+        <td>{{ category.createdAt | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ category.updatedAt | date: 'yyyy-MM-dd' }}</td>
         <td>
           <div>
             <button
@@ -41,7 +41,7 @@
               (click)="updateCategory(category.id)"
               class="btn btn-info btn-sm ms-2"
             >
-              Update
+              Edit
             </button>
 
             <button

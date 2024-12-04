@@ -13,7 +13,7 @@ export class Product {
     price: string = '',
     stock: string = '',
     imgUrl: string = '',
-    category: string = ''
+    category: string = '',
   ) {
     this.id = id;
     this.name = name;

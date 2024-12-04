@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
-
-import { Product, ProductResponse } from '../../models/product';
 import { ProductService } from '../../service/product.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectProductItems } from '../product.selector';
+import { deleteProductAction, getProductListAction } from '../product.actions';
+import { Product } from '../product.type';
 
 @Component({
   selector: 'app-product-list',
@@ -13,26 +16,26 @@ import { ProductService } from '../../service/product.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-  private productsSubject = new BehaviorSubject<Product[]>([]);
-  products$ = this.productsSubject.asObservable();
+  products$: Observable<Product[]>;
 
-  constructor(private productService: ProductService, private router: Router) {}
-
+  constructor(
+    private router: Router,
+    private store: Store,
+  ) {
+    // Fetching categories
+    this.products$ = this.store.select(selectProductItems);
+  }
   ngOnInit() {
-    this.getProducts();
+    console.log(this.products$);
+    this.products$.subscribe((products) => {
+      if (!products || products.length === 0) {
+        this.getProducts();
+      }
+    });
   }
 
   private getProducts() {
-    console.log('product list reload');
-    this.productService.getProductList().subscribe((data) => {
-      console.log(data);
-
-      this.productsSubject.next(
-        data.map((item) => {
-          return this.productService.transformToProduct(item);
-        })
-      ); // Update the BehaviorSubject
-    });
+    this.store.dispatch(getProductListAction());
   }
 
   createProduct() {
@@ -47,10 +50,7 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['admin/update-product', id]);
   }
 
-  deleteProduct(id: number) {
-    this.productService.deleteProduct(id).subscribe((data) => {
-      console.log(data);
-      this.getProducts();
-    });
+  deleteProduct(productId: number) {
+    this.store.dispatch(deleteProductAction({ id: productId }));
   }
 }

@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../service/category.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectedCategoryItem } from '../category.selector';
+import { BaseComponent } from '../../../common/base/BaseComponent';
 
 @Component({
   selector: 'app-category-details',
@@ -10,22 +14,23 @@ import { CategoryService } from '../../service/category.service';
   templateUrl: './category-details.component.html',
   styleUrls: ['./category-details.component.css'],
 })
-export class CategoryDetailsComponent implements OnInit {
+export class CategoryDetailsComponent extends BaseComponent implements OnInit {
   id: number = 0;
-  category: Category = new Category();
+  category$!: Observable<Category | undefined>;
 
   constructor(
     private route: ActivatedRoute,
-    private categoryService: CategoryService
-  ) {}
-
-  ngOnInit(): void {
+    private store: Store,
+    injector: Injector,
+  ) {
+    super(injector);
     this.id = this.route.snapshot.params['id'];
-
-    this.category = new Category();
-    this.categoryService.getCategoryById(this.id).subscribe((data) => {
-      this.category = data;
+    this.category$ = this.store.select(selectedCategoryItem(this.id));
+    this.category$.subscribe((category) => {
+      console.log('category emitted:', category);
     });
+    console.log(this.category$);
   }
-}
 
+  ngOnInit(): void {}
+}

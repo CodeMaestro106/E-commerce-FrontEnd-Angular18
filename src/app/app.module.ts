@@ -19,6 +19,9 @@ import { UserModule } from './user/user.module';
 import { AdminModule } from './admin/admin.module';
 import { RegisterComponent } from './common/register/register.component';
 import { OtpComponent } from './common/otp/otp.component';
+import { SideBarComponent } from './common/sidebar/sidebar.component';
+import { FooterComponent } from './common/footer/footer.component';
+import { NotFoundComponent } from './common/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { OtpComponent } from './common/otp/otp.component';
     HeaderComponent,
     RegisterComponent,
     OtpComponent,
+    SideBarComponent,
+    FooterComponent,
+    NotFoundComponent,
   ],
   imports: [
     // AuthModule,

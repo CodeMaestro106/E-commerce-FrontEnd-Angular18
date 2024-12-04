@@ -20,6 +20,21 @@ import { UserListComponent } from './user/user-list/user-list.component';
 
 // Auth Guard
 import { AuthGuard } from '../auth/auth.guard';
+import { StoreModule } from '@ngrx/store';
+import {
+  categoryFeatureKey,
+  categoryReducer,
+} from './category/category.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CategoryEffects } from './category/category.effects';
+import { cartFeatureKey, cartReducer } from './cart/cart.reducer';
+import { CartEffects } from './cart/cart.effects';
+
+import { userFeatureKey, userReducer } from './user/user.reducer';
+import { UserEffects } from './user/user.effects';
+import { productFeatureKey, productReducer } from './product/product.reducer';
+import { ProductEffects } from './product/product.effects';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -27,6 +42,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'ADMIN' },
     children: [
+      { path: 'admin/dashboard', component: DashboardComponent },
       // Category CRUD
       { path: 'admin/categories', component: CategoryListComponent },
       { path: 'admin/create-category', component: CreateCategoryComponent },
@@ -74,6 +90,17 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
+    StoreModule.forFeature(categoryFeatureKey, categoryReducer),
+    EffectsModule.forFeature([CategoryEffects]),
+
+    StoreModule.forFeature(cartFeatureKey, cartReducer),
+    EffectsModule.forFeature([CartEffects]),
+
+    StoreModule.forFeature(userFeatureKey, userReducer),
+    EffectsModule.forFeature([UserEffects]),
+
+    StoreModule.forFeature(productFeatureKey, productReducer),
+    EffectsModule.forFeature([ProductEffects]),
   ],
 })
 export class AdminModule {}

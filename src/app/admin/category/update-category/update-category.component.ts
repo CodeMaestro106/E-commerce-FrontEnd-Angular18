@@ -1,7 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Category } from '../../models/category';
-import { CategoryService } from '../../service/category.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { updateCategoryAction } from '../category.actions';
+import { BaseComponent } from '../../../common/base/BaseComponent';
+import { Injector } from '@angular/core';
+import { Observable } from 'rxjs';
+import { selectError, selectedCategoryItem } from '../category.selector';
 
 @Component({
   selector: 'app-update-category',
@@ -9,55 +15,36 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './update-category.component.html',
   styleUrls: ['./update-category.component.css'],
 })
-export class UpdateCategoryComponent implements OnInit {
+export class UpdateCategoryComponent extends BaseComponent implements OnInit {
   category: Category = new Category();
   id: number = 0;
-  errorMessage: string = '';
+  name: string = '';
+  errorMessage$!: Observable<string | null>;
 
   constructor(
-    private categoryService: CategoryService,
+    injector: Injector,
+    private store: Store,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private router: Router
-  ) {}
+  ) {
+    super(injector);
+    this.id = this.route.snapshot.params['id'];
+    this.errorMessage$ = this.store.select(selectError);
+  }
 
   ngOnInit() {
     this.category = new Category();
-
-    this.id = this.route.snapshot.params['id'];
-
-    this.categoryService.getCategoryById(this.id).subscribe(
-      (data) => {
-        console.log(data);
-        this.category = data;
-      },
-      (error) => {
-        console.log(error);
+    this.store.select(selectedCategoryItem(this.id)).subscribe((category) => {
+      if (category) {
+        this.name = category.name;
       }
-    );
+    });
   }
 
   updateCategory() {
-    this.categoryService.updateCategory(this.id, this.category).subscribe(
-      (data) => {
-        console.log(data);
-        this.category = new Category();
-        this.goToCategoryList();
-      },
-      (error) => {
-        console.log(error.error.msg);
-        this.errorMessage = error.error.msg;
-      }
-    );
+    this.store.dispatch(updateCategoryAction({ id: this.id, name: this.name }));
   }
 
   onSubmit() {
     this.updateCategory();
-  }
-
-  goToCategoryList() {
-    this.router.navigate(['admin/categories']).then(() => {
-      this.cdr.detectChanges();
-    });
   }
 }

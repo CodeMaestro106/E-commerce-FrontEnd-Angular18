@@ -1,52 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User } from '../../models/user';
-import { UserService } from '../../../common/service/user.service';
-import { Router } from '@angular/router';
-
-
+import { User } from '../user.type';
+import { selectUserItems } from '../user.selector';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { deleteUserAction, getUserListAction } from '../user.actions';
+import { Injector } from '@angular/core';
+import { BaseComponent } from '../../../common/base/BaseComponent';
 
 @Component({
   selector: 'app-user-list',
   standalone: false,
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+  styleUrl: './user-list.component.scss',
 })
-export class UserListComponent {
-
-  private usersSubject = new BehaviorSubject<User[]>([]);
-  users$ = this.usersSubject.asObservable();
+export class UserListComponent extends BaseComponent implements OnInit {
+  users$: Observable<User[]>;
 
   constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+    private store: Store,
+    injector: Injector,
+  ) {
+    super(injector);
+    // Fetching categories
+    this.users$ = this.store.select(selectUserItems);
+  }
 
   ngOnInit() {
-    this.getAllUsers();
+    console.log('component =>', this.users$);
+    this.users$.subscribe((users) => {
+      if (!users || users.length === 0) {
+        this.getAllUsers();
+      }
+    });
   }
 
   private getAllUsers() {
-    console.log('user list reload');
-    this.userService
-      .getAllUsers()
-      .subscribe((data: any) => {
-        console.log(data);
-        this.usersSubject.next(data); // Update the BehaviorSubject
-      });
-    console.log(this.usersSubject)
+    console.log('category list reload');
+    this.store.dispatch(getUserListAction());
   }
 
-
-  userDetails(id: number) {
-    this.router.navigate(['admin/user-details', id]);
-  }
-
-
-  deleteUser(id: number) {
-    this.userService.deleteUserByAdmin(id.toString()).subscribe((data) => {
-      console.log(data);
-      this.getAllUsers();
-    });
+  deleteUser(userId: number) {
+    this.store.dispatch(deleteUserAction({ id: userId }));
   }
 }

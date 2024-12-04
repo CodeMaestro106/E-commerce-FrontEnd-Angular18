@@ -24,7 +24,8 @@ import { ProductCardComponentComponent } from './product/product-card-component/
 
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Product3dViewComponent } from "./product/product-3d-view/product-3d-view.component";
+import { Product3dViewComponent } from './product/product-3d-view/product-3d-view.component';
+import { ModelViewerComponent } from './product/model-viewer/model-viewer.component';
 
 const routes: Routes = [
   //   { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard] }, // Protect admin routes with RoleGuard
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'cart', component: CartMainComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'model-view', component: ModelViewerComponent },
 
   // Other routes for your app
 ];
@@ -42,6 +44,7 @@ const routes: Routes = [
     CartMainComponent,
     ProductDetailComponent,
     ProfileComponent,
+    ModelViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -52,11 +55,12 @@ const routes: Routes = [
     EffectsModule.forFeature([CategoryEffects]),
     StoreModule.forFeature(productFeatureKey, productReducer),
     EffectsModule.forFeature([ProductEffects]),
+
     CartItemComponent,
     ProductCardComponentComponent,
     FormsModule,
-    Product3dViewComponent
-],
+    Product3dViewComponent,
+  ],
 })
 export class UserModule {}
 //

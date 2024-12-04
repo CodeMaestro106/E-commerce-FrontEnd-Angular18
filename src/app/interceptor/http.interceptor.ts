@@ -27,7 +27,6 @@ import { BehaviorSubject, take, filter, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
-
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(
@@ -54,14 +53,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(this.addAuthorizationHeader(req, user.token)).pipe(
       catchError((error) => {
-        if(
-          error instanceof HttpErrorResponse && !req.url.includes('auth/login') && error.status === 401
-        ){
-          console.log("user pre token =>", user.token);
-          return this.refreshAccessToken(req, next)
+        if (
+          error instanceof HttpErrorResponse &&
+          !req.url.includes('auth/login') &&
+          error.status === 401
+        ) {
+          console.log('user pre token =>', user.token);
+          return this.refreshAccessToken(req, next);
         }
-        return throwError(()=> error);
-      })
+        return throwError(() => error);
+      }),
     );
   }
 
@@ -90,7 +91,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     // If a refresh token request is already in progress, wait for its result
     if (this.isRefreshing) {
-
       return this.refreshTokenSubject.pipe(
         filter((token) => token != null), // Wait until we have a new token
         take(1),
@@ -105,40 +105,39 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     this.isRefreshing = true;
     this.refreshTokenSubject.next(null); // Reset the subject
 
-    return this.authService.refreshToken(refreshToken)
-      .pipe(
-        switchMap((response) => {
-          console.log(
-            'after connecting datebase, the result true => ',
-              response.refreshToken
-          );
-          // Store the new tokens after refreshing
-          this.storageService.storeTokens(
-            response.accessToken,
-            response.refreshToken,
-          );
+    return this.authService.refreshToken(refreshToken).pipe(
+      switchMap((response) => {
+        console.log(
+          'after connecting datebase, the result true => ',
+          response.refreshToken,
+        );
+        // Store the new tokens after refreshing
+        this.storageService.storeTokens(
+          response.accessToken,
+          response.refreshToken,
+        );
 
-          // Emit the new access token to all waiting requests
-          this.refreshTokenSubject.next(response.accessToken);
-          // Retry the original request with the new access token
-          return next.handle(
-            this.addAuthorizationHeader(req, response.accessToken),
-          );
-        }),
-        catchError((err) => {
-          console.log("refresh token error =>", err);
-          // If the refresh token request fails (e.g., refresh token is expired), log out the user
-          this.storageService.clean();
-          alert();
-          this.router.navigate(['/login']).then(() => window.location.reload());
-          return EMPTY;
-        }),
-        // After the refresh process is complete, reset the refreshing state
-        finalize(() => {
-          this.isRefreshing = false;
-          // return EMPTY;
-        }),
-      );
+        // Emit the new access token to all waiting requests
+        this.refreshTokenSubject.next(response.accessToken);
+        // Retry the original request with the new access token
+        return next.handle(
+          this.addAuthorizationHeader(req, response.accessToken),
+        );
+      }),
+      catchError((err) => {
+        console.log('refresh token error =>', err);
+        // If the refresh token request fails (e.g., refresh token is expired), log out the user
+        this.storageService.clean();
+        alert(err);
+        this.router.navigate(['/login']).then(() => window.location.reload());
+        return EMPTY;
+      }),
+      // After the refresh process is complete, reset the refreshing state
+      finalize(() => {
+        this.isRefreshing = false;
+        // return EMPTY;
+      }),
+    );
   }
 }
 

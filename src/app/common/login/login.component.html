@@ -1,69 +1,77 @@
-<div class="col-md-12">
-  <div class="card card-container">
-    <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    />
-    <div *ngIf="isAuthenicated$; else alertLoggedIn">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            formControlName="email"
-            class="form-control"
-            placeholder="Enter your email"
-          />
-          <div *ngIf="loginForm.controls['email'].errors" class="error">
-            <small *ngIf="loginForm.controls['email'].errors?.['required']">
-              Email is required
-            </small>
-            <small *ngIf="loginForm.controls['email'].errors?.['email']">
-              Email must be a valid Email address
-            </small>
-            <small *ngIf="loginForm.controls['email'].errors?.['minLength']">
-              Email must be at least 5 character
-            </small>
+<div class="container">
+  <div class="col-md-12">
+    <div class="card card-container">
+      <img
+        id="profile-img"
+        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        class="profile-img-card"
+      />
+      <div *ngIf="isAuthenicated$; else alertLoggedIn">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control"
+              placeholder="Enter your email"
+            />
+            <div *ngIf="loginForm.controls['email'].errors" class="error">
+              <small *ngIf="loginForm.controls['email'].errors?.['required']">
+                Email is required
+              </small>
+              <small *ngIf="loginForm.controls['email'].errors?.['email']">
+                Email must be a valid Email address
+              </small>
+              <small *ngIf="loginForm.controls['email'].errors?.['minLength']">
+                Email must be at least 5 character
+              </small>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            placeholder="Enter your password"
-            required
-          />
-          <div *ngIf="loginForm.controls['password'].errors" class="error">
-            <small *ngIf="loginForm.controls['password'].errors?.['required']">
-              Password is required
-            </small>
-            <small *ngIf="loginForm.controls['password'].errors?.['minLength']">
-              Password must be at least 5 character
-            </small>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Enter your password"
+              required
+            />
+            <div *ngIf="loginForm.controls['password'].errors" class="error">
+              <small
+                *ngIf="loginForm.controls['password'].errors?.['required']"
+              >
+                Password is required
+              </small>
+              <small
+                *ngIf="loginForm.controls['password'].errors?.['minLength']"
+              >
+                Password must be at least 5 character
+              </small>
+            </div>
           </div>
-        </div>
-        <br />
-        <div class="form-group d-flex justify-content-end align-items-center">
-          <button
-            class="btn btn-primary btn-block"
-            [disabled]="loginForm.invalid || (loading$ | async)"
-          >
-            {{ (loading$ | async) ? 'Logging in...' : 'Login' }}
-          </button>
-        </div>
-        <div class="form-group" *ngIf="error$ | async as error">
           <br />
-          <div class="alert alert-danger" role="alert">
-            Login failed: {{ error$ | async }}
+          <div class="form-group d-flex justify-content-end align-items-center">
+            <button
+              class="btn btn-primary btn-block"
+              [disabled]="loginForm.invalid || (loading$ | async)"
+            >
+              {{ (loading$ | async) ? 'Logging in...' : 'Login' }}
+            </button>
           </div>
+          <div class="form-group" *ngIf="error$ | async as error">
+            <br />
+            <div class="alert alert-danger" role="alert">
+              Login failed: {{ error$ | async }}
+            </div>
+          </div>
+        </form>
+      </div>
+      <ng-template #alertLoggedIn>
+        <div class="alert alert-success">
+          Logged in as {{ email$ | async }}.
         </div>
-      </form>
+      </ng-template>
     </div>
-    <ng-template #alertLoggedIn>
-      <div class="alert alert-success">Logged in as {{ email$ | async }}.</div>
-    </ng-template>
   </div>
 </div>

@@ -5,6 +5,12 @@ import { CartService } from '../../service/cart.service';
 import { Category, CategoryResponse } from '../../models/category';
 
 import { Location } from '@angular/common';
+import { BaseComponent } from '../../../common/base/BaseComponent';
+import { Injector } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Cart, CartItem } from '../cart.type';
+import { Store } from '@ngrx/store';
+import { selectCartItem } from '../cart.selector';
 
 @Component({
   selector: 'app-cart-details',
@@ -12,26 +18,20 @@ import { Location } from '@angular/common';
   templateUrl: './cart-details.component.html',
   styleUrls: ['./cart-details.component.css'],
 })
-export class CartDetailsComponent implements OnInit {
+export class CartDetailsComponent extends BaseComponent implements OnInit {
   id: number = 0;
-  cartItems: any[] = [];
+  cartItems$!: Observable<CartItem[] | undefined>;
 
   constructor(
     private route: ActivatedRoute,
-    private cartService: CartService,
-    private location: Location,
-  ) {}
-
-  ngOnInit(): void {
+    private store: Store,
+    injector: Injector,
+  ) {
+    super(injector);
     this.id = this.route.snapshot.params['id'];
 
-    this.cartService.getCartById(this.id).subscribe((data) => {
-      console.log(data);
-      this.cartItems = data;
-    });
+    this.cartItems$ = this.store.select(selectCartItem(this.id));
   }
 
-  goBack(): void {
-    this.location.back();
-  }
+  ngOnInit(): void {}
 }

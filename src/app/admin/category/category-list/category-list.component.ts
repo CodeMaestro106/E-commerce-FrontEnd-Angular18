@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
 import { Category, CategoryResponse } from '../../models/category';
+import { Store } from '@ngrx/store';
+import {
+  getCategoryListAction,
+  deleteCategoryAction,
+  updateCategoryAction,
+} from '../category.actions';
+import { selectCategoryItems } from '../category.selector';
 
 @Component({
   selector: 'app-category-list',
@@ -11,26 +18,28 @@ import { Category, CategoryResponse } from '../../models/category';
   styleUrls: ['./category-list.component.css'],
 })
 export class CategoryListComponent implements OnInit {
-  private categoriesSubject = new BehaviorSubject<Category[]>([]);
-  categories$ = this.categoriesSubject.asObservable();
+  categories$: Observable<Category[]>;
 
   constructor(
-    private categoryService: CategoryService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private store: Store,
+  ) {
+    // Fetching categories
+    this.categories$ = this.store.select(selectCategoryItems);
+  }
 
   ngOnInit() {
-    this.getCategories();
+    console.log(this.categories$);
+    this.categories$.subscribe((categories) => {
+      if (!categories || categories.length === 0) {
+        this.getCategories();
+      }
+    });
   }
 
   private getCategories() {
     console.log('category list reload');
-    this.categoryService
-      .getCategoryList()
-      .subscribe((data: any) => {
-        console.log(data);
-        this.categoriesSubject.next(data); // Update the BehaviorSubject
-      });
+    this.store.dispatch(getCategoryListAction());
   }
 
   createCategory() {
@@ -45,10 +54,7 @@ export class CategoryListComponent implements OnInit {
     this.router.navigate(['admin/update-category', id]);
   }
 
-  deleteCategory(id: number) {
-    this.categoryService.deleteCategory(id).subscribe((data) => {
-      console.log(data);
-      this.getCategories();
-    });
+  deleteCategory(categoryId: number) {
+    this.store.dispatch(deleteCategoryAction({ id: categoryId }));
   }
 }

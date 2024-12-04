@@ -1,13 +1,24 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
+import { BaseComponent } from '../../../common/base/BaseComponent';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { Product } from '../../models/product';
-import { Category, CategoryResponse } from '../../models/category';
-import { ProductService } from '../../service/product.service';
-import { CategoryService } from '../../service/category.service';
+import { selectError, selectedProductItem } from '../product.selector';
 
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Injector } from '@angular/core';
+import { Product } from '../product.type';
+import { Category } from '../../category/category.type';
+import { getCategoryListAction } from '../../category/category.actions';
+
+import { map } from 'rxjs';
+
+import {
+  selectCategoryItems,
+  selectedCategoryItem,
+} from '../../category/category.selector';
+import { updateProductAction } from '../product.actions';
 
 @Component({
   selector: 'app-update-product',
@@ -15,12 +26,11 @@ import { Location } from '@angular/common';
   templateUrl: './update-product.component.html',
   styleUrls: ['./update-product.component.css'],
 })
-export class UpdateProductComponent implements OnInit {
-  product: Product = new Product();
+export class UpdateProductComponent extends BaseComponent implements OnInit {
   id: number = 0;
-
-  errorMessage: string = '';
-  categories: Category[] = [];
+  product$: Observable<Product | undefined>;
+  errorMessage$!: Observable<string | null>;
+  categories$: Observable<Category[]>;
   selectedCategoryId: number | null = null;
 
   selectedFile: File | null = null; // Store the selected file
@@ -51,101 +61,77 @@ export class UpdateProductComponent implements OnInit {
   }
 
   constructor(
-    private productService: ProductService,
-    private categoryService: CategoryService,
-    private router: Router,
     private route: ActivatedRoute,
-    private location: Location
-  ) {}
-
-  ngOnInit() {
-    this.getCategoryList();
-
+    private store: Store,
+    injector: Injector,
+  ) {
+    super(injector);
+    this.categories$ = this.store.select(selectCategoryItems);
+    this.errorMessage$ = this.store.select(selectError);
     this.id = this.route.snapshot.params['id'];
-
-    this.productService.getProductById(this.id).subscribe(
-      (data) => {
-        this.product = this.productService.transformToProduct(data);
-
-        if (this.product.category) {
-          this.selectedCategoryId = Number(
-            this.categories.find((item) => item.name === this.product.category)
-              ?.id
-          );
-          console.log(this.selectedCategoryId);
-        }
-
-        if (this.product.imgUrl) {
-          this.previewUrl = this.product.imgUrl;
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.product$ = this.store.select(selectedProductItem(this.id));
   }
 
-  getCategoryList(): void {
-    this.categoryService
-      .getCategoryList()
-      .subscribe((data: any) => {
-        this.categories = data;
-      });
+  ngOnInit() {
+    this.categories$.subscribe((categories) => {
+      if (!categories || categories.length === 0) {
+        this.getCategories();
+      }
+    });
+  }
+  private getCategories() {
+    console.log('category list reload');
+    this.store.dispatch(getCategoryListAction());
   }
 
   // get selected category Item
   onCategoryChange(event: any): void {
     this.selectedCategoryId = Number(event.target.value);
 
-    const selectedCategory = this.categories.find(
-      (category) => category.id === this.selectedCategoryId
-    );
-
-    if (selectedCategory) {
-      this.product.category = selectedCategory.name; // Get category name
-    }
+    this.store
+      .select(selectedCategoryItem(this.selectedCategoryId))
+      .subscribe((selectedCategory) => {
+        if (selectedCategory) {
+          // Update the category of the product by merging the selectedCategory
+          return this.product$.pipe(
+            map((product) => ({
+              ...product, // Copy existing product properties
+              category: selectedCategory.name, // Update the category
+            })),
+          );
+        }
+        return this.product$; // If no selectedCategory, return product$ as is
+      });
   }
 
   saveProduct(): void {
     if (this.selectedFile) {
-      const formData: FormData = new FormData();
-      formData.append('name', this.product.name);
-      formData.append('description', this.product.description);
-      formData.append('price', this.product.price.toString());
-      formData.append('stock', this.product.stock.toString());
-      formData.append('category', this.product.category);
+      this.product$.subscribe((product) => {
+        if (product) {
+          const formData: FormData = new FormData();
 
-      formData.append(
-        'productImage',
-        this.selectedFile,
-        this.selectedFile.name
-      );
+          formData.append(
+            'productImage',
+            this.selectedFile!,
+            this.selectedFile!.name,
+          );
+          formData.append('name', product.name);
+          formData.append('description', product.description);
+          formData.append('price', product.price.toString());
+          formData.append('stock', product.stock.toString());
+          formData.append('category', product.category);
 
-      this.productService.updateProduct(this.product.id, formData).subscribe(
-        (data) => {
-          console.log(data);
-          this.goToProductList();
-        },
-        (error) => {
-          console.log(error);
-          this.errorMessage = error.error.msg;
+          this.store.dispatch(
+            updateProductAction({ id: this.id, product: formData }),
+          );
         }
-      );
+      });
     } else {
       alert('Please select a product image.');
     }
   }
 
-  goToProductList() {
-    this.router.navigate(['admin/products']);
-  }
-
   onSubmit() {
-    console.log(this.product);
     this.saveProduct();
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }

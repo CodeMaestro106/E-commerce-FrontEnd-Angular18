@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../service/category.service';
 import { Router } from '@angular/router';
+import { BaseComponent } from '../../../common/base/BaseComponent';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectError } from '../category.selector';
+import { createCategoryAction } from '../category.actions';
 
 @Component({
   selector: 'app-create-category',
@@ -9,32 +14,24 @@ import { Router } from '@angular/router';
   templateUrl: './create-category.component.html',
   styleUrls: ['./create-category.component.css'],
 })
-export class CreateCategoryComponent implements OnInit {
+export class CreateCategoryComponent extends BaseComponent implements OnInit {
   category: Category = new Category();
-  errorMessage: string = '';
+  name: string = '';
+  errorMessage$!: Observable<string | null>;
 
   constructor(
-    private categoryService: CategoryService,
-    private router: Router
-  ) {}
+    injector: Injector,
+    private store: Store,
+  ) {
+    super(injector);
+    this.errorMessage$ = this.store.select(selectError);
+  }
 
   ngOnInit() {}
 
   saveCategory() {
-    this.categoryService.createCategory(this.category).subscribe(
-      (data) => {
-        console.log(data);
-        this.goToCategoryList();
-      },
-      (error) => {
-        console.log(error.error.msg);
-        this.errorMessage = error.error.msg;
-      }
-    );
-  }
-
-  goToCategoryList() {
-    this.router.navigate(['admin/categories']);
+    this.category = { ...this.category, name: this.name };
+    this.store.dispatch(createCategoryAction({ category: this.category }));
   }
 
   onSubmit() {

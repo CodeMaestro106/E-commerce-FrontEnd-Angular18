@@ -18,12 +18,7 @@ export const productReducer = createReducer(
   initialState,
   // get product list
   on(getProductListSuccess, (store: ProductState, result) => {
-    // const products = result.products.map((item) => {
-    //   return {
-    //     id: item.id,
-    //     name: item.name,
-    //   };
-    // });
+    
     const combinedProductItems = [...store.products, ...result.products];
     // Filter for unique items based on `id`
     const uniqueProductItems = combinedProductItems.filter(

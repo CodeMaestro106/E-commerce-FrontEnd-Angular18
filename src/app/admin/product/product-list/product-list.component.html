@@ -24,8 +24,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products$ | async">
-        <td class="col">{{ product.id }}</td>
+      <tr *ngFor="let product of products$ | async; let i = index">
+        <td class="col">{{ i + 1 }}</td>
         <td class="col">
           <img
             [src]="product.imgUrl"

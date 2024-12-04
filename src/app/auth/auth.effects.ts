@@ -130,9 +130,15 @@ export class AuthEffects {
             console.log('Effect user => ', user);
 
             this.authStoreService.saveUser(user);
-            this.router
-              .navigate(['/dashboard'])
-              .then(() => window.location.reload());
+            if (this.authStoreService.getUserRole() === 'ADMIN') {
+              this.router
+                .navigate(['/admin/dashboard'])
+                .then(() => window.location.reload());
+            } else {
+              this.router
+                .navigate(['/dashboard'])
+                .then(() => window.location.reload());
+            }
           });
         }),
       ),

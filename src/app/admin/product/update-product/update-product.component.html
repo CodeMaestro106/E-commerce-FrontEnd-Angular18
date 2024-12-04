@@ -13,15 +13,23 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-4">
-        <div class="card" *ngIf="previewUrl" style="width: 18rem">
+        <div
+          class="card"
+          *ngIf="(product$ | async)?.imgUrl"
+          style="width: 18rem"
+        >
           <p>Image Preview:</p>
-          <img [src]="previewUrl" alt="Selected Image" class="product-image" />
+          <img
+            [src]="(product$ | async)?.imgUrl"
+            alt="Selected Image"
+            class="product-image"
+          />
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" *ngIf="product$ | async as product">
         <form (ngSubmit)="onSubmit()" #f="ngForm">
           <div class="form-group">
-            <label> Name </label>
+            <label>Name</label>
             <input
               type="text"
               class="form-control"
@@ -34,21 +42,23 @@
               #name="ngModel"
               [ngClass]="{ 'is-invalid': f.submitted && name.errors }"
             />
-            @if( name.errors && f.submitted){
-            <div class="invalid-feedback">
-              @if (name.errors['required']) {
-              <div>Product name is required</div>
-              } @if (name.errors['minlength']) {
-              <div>Product name must be at least 3 characters</div>
-              } @if (name.errors['maxlength']) {
-              <div>Product name must be at most 20 characters</div>
-              }
-            </div>
+            @if (name.errors && f.submitted) {
+              <div class="invalid-feedback">
+                @if (name.errors['required']) {
+                  <div>Product name is required</div>
+                }
+                @if (name.errors['minlength']) {
+                  <div>Product name must be at least 3 characters</div>
+                }
+                @if (name.errors['maxlength']) {
+                  <div>Product name must be at most 20 characters</div>
+                }
+              </div>
             }
           </div>
 
           <div class="form-group">
-            <label> Description </label>
+            <label>Description</label>
             <input
               type="text"
               class="form-control"
@@ -61,19 +71,21 @@
             />
           </div>
           @if (description.errors && f.submitted) {
-          <div class="invalid-feedback">
-            @if (description.errors['required']) {
-            <div>Description is required</div>
-            } @if (description.errors['minlength']) {
-            <div>Description must be at least 3 characters</div>
-            } @if (description.errors['maxlength']) {
-            <div>Description must be at most 20 characters</div>
-            }
-          </div>
+            <div class="invalid-feedback">
+              @if (description.errors['required']) {
+                <div>Description is required</div>
+              }
+              @if (description.errors['minlength']) {
+                <div>Description must be at least 3 characters</div>
+              }
+              @if (description.errors['maxlength']) {
+                <div>Description must be at most 20 characters</div>
+              }
+            </div>
           }
 
           <div class="form-group">
-            <label> Price </label>
+            <label>Price</label>
             <input
               type="number"
               class="form-control"
@@ -86,16 +98,16 @@
               [ngClass]="{ 'is-invalid': f.submitted && price.errors }"
             />
             @if (price.errors && f.submitted) {
-            <div class="invalid-feedback">
-              @if (price.errors['required']) {
-              <div>Price is required</div>
-              }
-            </div>
+              <div class="invalid-feedback">
+                @if (price.errors['required']) {
+                  <div>Price is required</div>
+                }
+              </div>
             }
           </div>
 
           <div class="form-group">
-            <label> Stock </label>
+            <label>Stock</label>
             <input
               type="number"
               class="form-control"
@@ -127,7 +139,10 @@
               [(ngModel)]="selectedCategoryId"
             >
               <option value="" disabled selected>Select a category</option>
-              <option *ngFor="let category of categories" [value]="category.id">
+              <option
+                *ngFor="let category of categories$ | async"
+                [value]="category.id"
+              >
                 {{ category.name }}
               </option>
             </select>
@@ -135,11 +150,10 @@
 
           <button class="btn btn-success mt-3" type="submit">Submit</button>
           <div class="form-group">
-            @if (f.submitted && errorMessage) {
-
-            <div class="alert alert-danger" role="alert">
-              Create Product failed: {{ errorMessage }}
-            </div>
+            @if (f.submitted && (errorMessage$ | async)) {
+              <div class="alert alert-danger" role="alert">
+                Create Product failed: {{ errorMessage$ | async }}
+              </div>
             }
           </div>
         </form>

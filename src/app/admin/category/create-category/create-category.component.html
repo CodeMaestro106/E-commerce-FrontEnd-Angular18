@@ -1,29 +1,40 @@
-<div class="card card-container">
-  <div class="card-header">
-    <h3>Create Category</h3>
-  </div>
-  <div class="card-body">
-    <form (ngSubmit)="onSubmit()" #f="ngForm">
-      <div class="form-group">
-        <label> Name </label>
-        <input
-          type="text"
-          class="form-control mt-3"
-          id="name"
-          [(ngModel)]="category.name"
-          name="name"
-        />
+<div class="container">
+  <div class="card card-container">
+    <div class="card-header row">
+      <div class="col-8">
+        <h3>Create Category</h3>
       </div>
-
-      <button class="btn btn-success mt-3" type="submit">Submit</button>
-      <div class="form-group">
-        @if (f.submitted && errorMessage) {
-        <br />
-        <div class="alert alert-danger" role="alert">
-          Login failed: {{ errorMessage }}
+      <div class="col-4 d-flex justify-content-end">
+        <button class="btn btn-info" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Go Back
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            class="form-control mt-3"
+            id="name"
+            [(ngModel)]="name"
+            name="name"
+          />
         </div>
-        }
-      </div>
-    </form>
+        <div class="form-group d-flex justify-content-end align-items-center">
+          <button class="btn btn-success mt-3" type="submit">Submit</button>
+        </div>
+        <div class="form-group">
+          @if (f.submitted && (errorMessage$ | async)) {
+            <br />
+            <div class="alert alert-danger" role="alert">
+              Add failed: {{ errorMessage$ | async }}
+            </div>
+          }
+        </div>
+      </form>
+    </div>
   </div>
 </div>

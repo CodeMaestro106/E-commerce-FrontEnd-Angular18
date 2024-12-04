@@ -1,14 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { Product } from '../../models/product';
 import { Category, CategoryResponse } from '../../models/category';
 import { ProductService } from '../../service/product.service';
 import { CategoryService } from '../../service/category.service';
 
-
-
 import { Location } from '@angular/common';
+import { Product } from '../product.type';
+import { Observable } from 'rxjs';
+
+import { Injector } from '@angular/core';
+import { BaseComponent } from '../../../common/base/BaseComponent';
+import { Store } from '@ngrx/store';
+import {
+  selectCategoryItems,
+  selectedCategoryItem,
+} from '../../category/category.selector';
+
+import { selectError } from '../product.selector';
+import { createProductAction } from '../product.actions';
+
+import { getCategoryListAction } from '../../category/category.actions';
 
 @Component({
   selector: 'app-create-product',
@@ -16,10 +28,21 @@ import { Location } from '@angular/common';
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css'],
 })
-export class CreateProductComponent implements OnInit {
-  product: Product = new Product();
-  errorMessage: string = '';
-  categories: Category[] = [];
+export class CreateProductComponent extends BaseComponent implements OnInit {
+  product: Product = {
+    id: 0,
+    name: '',
+    description: '',
+    price: 0,
+    stock: 0,
+    imgUrl: '',
+    category: '',
+    categoryId: 0,
+    createdAt: '',
+    updatedAt: '',
+  };
+  errorMessage$!: Observable<string | null>;
+  categories$: Observable<Category[]>;
   selectedCategoryId: number | null = null;
 
   selectedFile: File | null = null; // Store the selected file
@@ -50,32 +73,38 @@ export class CreateProductComponent implements OnInit {
   }
 
   constructor(
-    private productService: ProductService,
-    private categoryService: CategoryService,
-    private router: Router,
-    private location: Location
-  ) {}
+    injector: Injector,
+    private store: Store,
+  ) {
+    super(injector);
+    this.categories$ = this.store.select(selectCategoryItems);
+    this.errorMessage$ = this.store.select(selectError);
+  }
 
   ngOnInit() {
-    this.categoryService
-      .getCategoryList()
-      .subscribe((data: any) => {
-        console.log(data);
-        this.categories = data;
-      });
+    this.categories$.subscribe((categories) => {
+      if (!categories || categories.length === 0) {
+        this.getCategories();
+      }
+    });
+  }
+  private getCategories() {
+    console.log('category list reload');
+    this.store.dispatch(getCategoryListAction());
   }
 
   // get selected category Item
   onCategoryChange(event: any): void {
     this.selectedCategoryId = Number(event.target.value);
 
-    const selectedCategory = this.categories.find(
-      (category) => category.id === this.selectedCategoryId
-    );
-
-    if (selectedCategory) {
-      this.product.category = selectedCategory.name; // Get category name
-    }
+    this.store
+      .select(selectedCategoryItem(this.selectedCategoryId))
+      .subscribe((selectedCategory) => {
+        if (selectedCategory) {
+          // Assuming selectedCategory has a 'name' property
+          this.product.category = selectedCategory.name; // Get category name
+        }
+      });
   }
 
   saveProduct(): void {
@@ -90,34 +119,16 @@ export class CreateProductComponent implements OnInit {
       formData.append(
         'productImage',
         this.selectedFile,
-        this.selectedFile.name
+        this.selectedFile.name,
       );
 
-      this.productService.createProduct(formData).subscribe(
-        (data) => {
-          console.log(data);
-          this.goToProductList();
-        },
-        (error) => {
-          console.log(error);
-          this.errorMessage = error.error.msg;
-        }
-      );
+      this.store.dispatch(createProductAction({ product: formData }));
     } else {
       alert('Please select a product image.');
     }
   }
 
-  goToProductList() {
-    this.router.navigate(['admin/products']);
-  }
-
   onSubmit() {
-    console.log(this.product);
     this.saveProduct();
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }
