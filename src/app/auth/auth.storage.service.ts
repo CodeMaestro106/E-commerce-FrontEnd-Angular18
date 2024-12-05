@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { USER_TOKEN_KEY, USER_KEY } from './auth.type';
+import { USER_TOKEN_KEY, USER_KEY } from '../store/auth/auth.type';
 
 @Injectable({
   providedIn: 'root',

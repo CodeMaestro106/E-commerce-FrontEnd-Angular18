@@ -1,11 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { Category } from '../../models/category';
-import { CategoryService } from '../../service/category.service';
+import { Category } from '../../../store/category/category.type';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectedCategoryItem } from '../category.selector';
+import { selectedCategoryItem } from '../../../store/category/category.selector';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 
 @Component({

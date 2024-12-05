@@ -6,12 +6,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component'; // Import standalone AppComponent
-import { authFeatureKey, authReducer } from './auth/auth.reducer'; // Import your reducers
+import { authFeatureKey, authReducer } from './store/auth/auth.reducer'; // Import your reducers
 import { HeaderComponent } from './common/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './common/login/login.component';
 import { CommonModule } from '@angular/common';
-import { AuthEffects } from './auth/auth.effects';
+import { AuthEffects } from './store/auth/auth.effects';
 
 import { httpInterceptorProviders } from './interceptor/http.interceptor';
 

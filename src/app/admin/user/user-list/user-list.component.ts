@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User } from '../user.type';
-import { selectUserItems } from '../user.selector';
+import { User } from '../../../store/user/user.type';
+import { selectUserItems } from '../../../store/user/user.selector';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { deleteUserAction, getUserListAction } from '../user.actions';
+import {
+  deleteUserAction,
+  getUserListAction,
+} from '../../../store/user/user.actions';
 import { Injector } from '@angular/core';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { ModalService } from '../../../common/modal/service/modal.service';

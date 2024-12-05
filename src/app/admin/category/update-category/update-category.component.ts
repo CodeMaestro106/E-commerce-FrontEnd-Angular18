@@ -1,13 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Category } from '../../models/category';
+import { Category } from '../../../store/category/category.type';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { updateCategoryAction } from '../category.actions';
+import { updateCategoryAction } from '../../../store/category/category.actions';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { selectError, selectedCategoryItem } from '../category.selector';
+import {
+  selectError,
+  selectedCategoryItem,
+} from '../../../store/category/category.selector';
 
 @Component({
   selector: 'app-update-category',

@@ -1,12 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { Category } from '../../models/category';
-import { CategoryService } from '../../service/category.service';
-import { Router } from '@angular/router';
+import { Category } from '../../../store/category/category.type';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectError } from '../category.selector';
-import { createCategoryAction } from '../category.actions';
+import { selectError } from '../../../store/category/category.selector';
+import { createCategoryAction } from '../../../store/category/category.actions';
 
 @Component({
   selector: 'app-create-category',

@@ -1,22 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { CategoryService } from '../../service/category.service';
-import { Category, CategoryResponse } from '../../models/category';
+
+import { Category } from '../../../store/category/category.type';
 import { Store } from '@ngrx/store';
 import {
   getCategoryListAction,
   deleteCategoryAction,
-  updateCategoryAction,
-} from '../category.actions';
-import { selectCategoryItems } from '../category.selector';
-import { DeleteModalComponent } from '../../../common/modal/delete/delete-modal.component';
+} from '../../../store/category/category.actions';
+import { selectCategoryItems } from '../../../store/category/category.selector';
 import { ModalService } from '../../../common/modal/service/modal.service';
-import { Title } from '@angular/platform-browser';
 
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTable } from '@angular/material/table';
-import { slice } from 'lodash';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -44,16 +39,16 @@ export class CategoryListComponent implements OnInit {
         this.getCategories();
       }
     });
+    this.categories$.subscribe((categories) => {
+      this.displayData$.next(categories);
+      this.totalItems$.next(categories.length); // Total number of items
+      this.updatePaginatedData();
+    });
   }
 
   private getCategories() {
     console.log('category list reload');
     this.store.dispatch(getCategoryListAction());
-    this.categories$.subscribe((categories) => {
-      this.displayData = categories;
-      this.totalItems = categories.length; // Total number of items
-      this.updatePaginatedData();
-    });
   }
 
   createCategory() {
@@ -82,11 +77,11 @@ export class CategoryListComponent implements OnInit {
 
   // paginator.
 
-  pageSize = 5; // Number of items per page
-  currentPage = 0; // Current page index
-  displayData: Category[] = [];
-  totalItems: number = 0; // To hold total number of items for pagination
-  pageSizeOptions: number[] = [5, 10, 20]; // Pagination options (items per page)
+  pageSize$ = new BehaviorSubject<number>(5); // Number of items per page
+  currentPage$ = new BehaviorSubject<number>(0); // Current page index
+  displayData$ = new BehaviorSubject<Category[]>([]);
+  totalItems$ = new BehaviorSubject<number>(5); // To hold total number of items for pagination
+  pageSizeOptions$ = new BehaviorSubject<number[]>([5, 10, 20]); // Pagination options (items per page)
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -96,16 +91,16 @@ export class CategoryListComponent implements OnInit {
 
   // Called when the page is changed
   pageChanged(event: PageEvent) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
+    this.currentPage$.next(event.pageIndex);
+    this.pageSize$.next(event.pageSize);
     this.updatePaginatedData();
   }
 
   updatePaginatedData() {
-    const start = this.currentPage * this.pageSize;
-    const end = start + this.pageSize;
-    this.categories$.subscribe(
-      (categories) => (this.displayData = categories.slice(start, end)),
+    const start = this.currentPage$.value * this.pageSize$.value;
+    const end = start + this.pageSize$.value;
+    this.categories$.subscribe((categories) =>
+      this.displayData$.next(categories.slice(start, end)),
     );
   }
 }

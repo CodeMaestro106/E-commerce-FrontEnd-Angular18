@@ -7,9 +7,9 @@ import {
   selectUser,
   selectLoading,
   selectAuthError,
-} from '../../auth/auth.selectors';
+} from '../../store/auth/auth.selectors';
 import { AuthStorageService } from '../../auth/auth.storage.service';
-import { register } from '../../auth/auth.actions';
+import { register } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-register',

@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CartService } from '../../service/cart.service';
-
-import { Category, CategoryResponse } from '../../models/category';
 
 import { Location } from '@angular/common';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Cart, CartItem } from '../cart.type';
+import { Cart, CartItem } from '../../../store/cart/cart.type';
 import { Store } from '@ngrx/store';
-import { selectCartItem } from '../cart.selector';
+import { selectCartItem } from '../../../store/cart/cart.selector';
 
 @Component({
   selector: 'app-cart-details',

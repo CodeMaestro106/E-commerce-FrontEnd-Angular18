@@ -22,8 +22,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of displayData; let i = index">
-        <td>{{ i + currentPage * pageSize + 1 }}</td>
+      <tr *ngFor="let category of displayData$ | async; let i = index">
+        <td>{{ i + currentPage$.value * pageSize$.value + 1 }}</td>
         <td>{{ category.name }}</td>
         <td>{{ category.createdAt | date: 'yyyy-MM-dd' }}</td>
         <td>{{ category.updatedAt | date: 'yyyy-MM-dd' }}</td>
@@ -61,23 +61,11 @@
     </tbody>
   </table>
   <mat-paginator
-    [length]="totalItems"
-    [pageSize]="pageSize"
-    [pageIndex]="currentPage"
-    [pageSizeOptions]="pageSizeOptions"
+    [length]="totalItems$ | async"
+    [pageSize]="pageSize$ | async"
+    [pageIndex]="currentPage$ | async"
+    [pageSizeOptions]="(pageSizeOptions$ | async) || [5, 10, 20]"
     (page)="pageChanged($event)"
   ></mat-paginator>
   <!-- Pagination controls -->
 </div>
-
-<!-- <app-delete-modal
-  *ngIf="isModalOpen$ | async
-  [title]="'Delte Category'"
-  [content]="
-    'Are you sure you want to remove this category? The category will be removed from this dashboard but can be added again later if need be'
-  "
-  (close)="closeDeleteModal()"
-  (confirm)="confirmDeleteModal()"
->
-  <p>This is the content of the modal!</p>
-</app-delete-modal> -->

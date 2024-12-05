@@ -24,16 +24,19 @@ import { StoreModule } from '@ngrx/store';
 import {
   categoryFeatureKey,
   categoryReducer,
-} from './category/category.reducer';
+} from '../store/category/category.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { CategoryEffects } from './category/category.effects';
-import { cartFeatureKey, cartReducer } from './cart/cart.reducer';
-import { CartEffects } from './cart/cart.effects';
+import { CategoryEffects } from '../store/category/category.effects';
+import { cartFeatureKey, cartReducer } from '../store/cart/cart.reducer';
+import { CartEffects } from '../store/cart/cart.effects';
 
-import { userFeatureKey, userReducer } from './user/user.reducer';
-import { UserEffects } from './user/user.effects';
-import { productFeatureKey, productReducer } from './product/product.reducer';
-import { ProductEffects } from './product/product.effects';
+import { userFeatureKey, userReducer } from '../store/user/user.reducer';
+import { UserEffects } from '../store/user/user.effects';
+import {
+  productFeatureKey,
+  productReducer,
+} from '../store/product/product.reducer';
+import { ProductEffects } from '../store/product/product.effects';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { MatTableModule } from '@angular/material/table';

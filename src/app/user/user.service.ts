@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs';
-import { AuthStorageService } from '../../auth/auth.storage.service';
+import { AuthStorageService } from '../auth/auth.storage.service';
 
 const API_URL = 'http://localhost:5000/user';
 

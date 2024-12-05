@@ -16,7 +16,7 @@ import {
 } from './auth.actions';
 import { Store, createAction } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { AuthStorageService } from './auth.storage.service';
+import { AuthStorageService } from '../../auth/auth.storage.service';
 import { selectUser } from './auth.selectors';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 

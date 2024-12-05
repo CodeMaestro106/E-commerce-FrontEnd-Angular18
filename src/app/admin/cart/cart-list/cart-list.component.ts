@@ -1,15 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { Category } from '../../models/category';
+
 import { Router } from '@angular/router';
 
-import { CartService } from '../../service/cart.service';
-
 import { Observable } from 'rxjs';
-import { Cart } from '../cart.type';
+import { Cart } from '../../../store/cart/cart.type';
 import { Store } from '@ngrx/store';
-import { getCartListAction } from '../cart.actions';
+import { getCartListAction } from '../../../store/cart/cart.actions';
 import { BaseComponent } from '../../../common/base/BaseComponent';
-import { selectCarts } from '../cart.selector';
+import { selectCarts } from '../../../store/cart/cart.selector';
 
 @Component({
   selector: 'app-cart-list',

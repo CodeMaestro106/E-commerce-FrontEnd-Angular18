@@ -1,20 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-
-import { ProductService } from '../../service/product.service';
-import { Product } from '../product.type';
+import { Product } from '../../../store/product/product.type';
 import { Observable } from 'rxjs';
 
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BaseComponent } from '../../../common/base/BaseComponent';
-import { selectedProductItem } from '../product.selector';
-import {
-  selectedCategoryItem,
-  selectCategoryItems,
-} from '../../category/category.selector';
-import { getCategoryListAction } from '../../category/category.actions';
+import { selectedProductItem } from '../../../store/product/product.selector';
 
 @Component({
   selector: 'app-product-details',

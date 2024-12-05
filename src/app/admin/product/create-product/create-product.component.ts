@@ -1,12 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 
-import { Router } from '@angular/router';
-import { Category, CategoryResponse } from '../../models/category';
-import { ProductService } from '../../service/product.service';
-import { CategoryService } from '../../service/category.service';
+import { Product } from '../../../store/product/product.type';
+import { Category } from '../../../store/category/category.type';
 
-import { Location } from '@angular/common';
-import { Product } from '../product.type';
 import { Observable } from 'rxjs';
 
 import { Injector } from '@angular/core';
@@ -15,12 +11,12 @@ import { Store } from '@ngrx/store';
 import {
   selectCategoryItems,
   selectedCategoryItem,
-} from '../../category/category.selector';
+} from '../../../store/category/category.selector';
 
-import { selectError } from '../product.selector';
-import { createProductAction } from '../product.actions';
+import { selectError } from '../../../store/product/product.selector';
+import { createProductAction } from '../../../store/product/product.actions';
 
-import { getCategoryListAction } from '../../category/category.actions';
+import { getCategoryListAction } from '../../../store/category/category.actions';
 
 @Component({
   selector: 'app-create-product',

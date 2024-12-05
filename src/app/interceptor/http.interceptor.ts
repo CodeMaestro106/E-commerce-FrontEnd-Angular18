@@ -20,8 +20,8 @@ import {
 import { Router } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { AuthStorageService } from '../auth/auth.storage.service';
-import { USER_KEY, USER_TOKEN_KEY } from '../auth/auth.type';
-import { AuthService } from '../auth/auth.service';
+import { USER_KEY, USER_TOKEN_KEY } from '../store/auth/auth.type';
+import { AuthService } from '../store/auth/auth.service';
 import { response } from 'express';
 import { BehaviorSubject, take, filter, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';

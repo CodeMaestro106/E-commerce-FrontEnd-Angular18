@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UserService } from '../../common/service/user.service';
+import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { AuthStorageService } from '../../auth/auth.storage.service';
 
@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authStorageService: AuthStorageService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {

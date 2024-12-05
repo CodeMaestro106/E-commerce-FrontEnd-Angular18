@@ -1,13 +1,13 @@
 import { Component, viewChildren } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../store/auth/auth.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as AuthAction from '../../auth/auth.actions';
+import * as AuthAction from '../../store/auth/auth.actions';
 import { constant } from 'lodash';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { selectAuthError } from '../../auth/auth.selectors';
+import { selectAuthError } from '../../store/auth/auth.selectors';
 @Component({
   selector: 'app-otp',
   standalone: false,

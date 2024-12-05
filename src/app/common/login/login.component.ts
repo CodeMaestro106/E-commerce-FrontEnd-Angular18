@@ -8,9 +8,9 @@ import {
   selectAuthState,
   selectLoading,
   selectAuthError,
-} from '../../auth/auth.selectors';
+} from '../../store/auth/auth.selectors';
 import { map, of } from 'rxjs';
-import { login } from '../../auth/auth.actions';
+import { login } from '../../store/auth/auth.actions';
 import { AsyncPipe } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthStorageService } from '../../auth/auth.storage.service';

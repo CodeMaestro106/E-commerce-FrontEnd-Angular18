@@ -53,6 +53,7 @@
               class="form-check-input"
               type="checkbox"
               id="'category-id-'{{ category.id }}"
+              [checked]="isCategoryChecked(category.id)"
               (change)="toggleCategory(category.id, categoryCheckbox.checked)"
             />
             <label
@@ -84,8 +85,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of displayData; let i = index">
-        <td class="col">{{ i + currentPage * pageSize + 1 }}</td>
+      <tr *ngFor="let product of displayData$ | async; let i = index">
+        <td>{{ i + currentPage$.value * pageSize$.value + 1 }}</td>
         <td class="col">
           <img
             [src]="product.imgUrl"
@@ -134,10 +135,10 @@
     </tbody>
   </table>
   <mat-paginator
-    [length]="totalItems"
-    [pageSize]="pageSize"
-    [pageIndex]="currentPage"
-    [pageSizeOptions]="pageSizeOptions"
+    [length]="totalItems$ | async"
+    [pageSize]="pageSize$ | async"
+    [pageIndex]="currentPage$ | async"
+    [pageSizeOptions]="(pageSizeOptions$ | async) || [5, 10, 20]"
     (page)="pageChanged($event)"
   ></mat-paginator>
 </div>

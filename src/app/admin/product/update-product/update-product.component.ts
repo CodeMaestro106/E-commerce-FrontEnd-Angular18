@@ -5,20 +5,23 @@ import { BaseComponent } from '../../../common/base/BaseComponent';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { selectError, selectedProductItem } from '../product.selector';
+import {
+  selectError,
+  selectedProductItem,
+} from '../../../store/product/product.selector';
 
 import { Injector } from '@angular/core';
-import { Product } from '../product.type';
-import { Category } from '../../category/category.type';
-import { getCategoryListAction } from '../../category/category.actions';
+import { Product } from '../../../store/product/product.type';
+import { Category } from '../../../store/category/category.type';
+import { getCategoryListAction } from '../../../store/category/category.actions';
 
 import { map } from 'rxjs';
 
 import {
   selectCategoryItems,
   selectedCategoryItem,
-} from '../../category/category.selector';
-import { updateProductAction } from '../product.actions';
+} from '../../../store/category/category.selector';
+import { updateProductAction } from '../../../store/product/product.actions';
 
 @Component({
   selector: 'app-update-product',

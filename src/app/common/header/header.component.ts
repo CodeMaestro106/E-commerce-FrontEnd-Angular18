@@ -5,10 +5,10 @@ import {
   selectAuthState,
   selectCheckAuthenticate,
   selectUser,
-} from '../../auth/auth.selectors';
-import * as AuthActions from '../../auth/auth.actions';
+} from '../../store/auth/auth.selectors';
+import * as AuthActions from '../../store/auth/auth.actions';
 import { AuthStorageService } from '../../auth/auth.storage.service';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../store/auth/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
 @Component({
