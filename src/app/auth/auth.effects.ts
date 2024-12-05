@@ -63,10 +63,13 @@ export class AuthEffects {
         ofType(sendOtp),
         tap((action) => {
           console.log('verify-otp=>', action);
+          // delete the auth Error:
           // Navigate to the main dashboard after register success
-          this.router.navigate(['verify-otp'], {
-            state: { email: action.email, password: action.password },
-          }); // Adjust route path as necessary
+          this.router
+            .navigate(['verify-otp'], {
+              state: { email: action.email, password: action.password },
+            })
+            .then(() => window.location.reload()); // Adjust route path as necessary
         }),
       ),
     { dispatch: false }, // No action is dispatched after navigation
@@ -91,6 +94,7 @@ export class AuthEffects {
 
             const errorMessage =
               error?.error?.msg || 'Login failed. Please try again.';
+
             return of(loginFailure({ error: errorMessage }));
           }),
         ),
@@ -166,6 +170,7 @@ export class AuthEffects {
           console.log('logout');
           this.router.navigate(['/dashboard']).then(() => {
             this.authStoreService.clean();
+            window.location.reload();
           });
         }),
       ),

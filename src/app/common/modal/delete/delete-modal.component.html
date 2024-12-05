@@ -1,0 +1,21 @@
+<!-- modal.component.html -->
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ modalContent?.title }}</h2>
+      <button class="btn btn-danger sm" (click)="closeModal()">X</button>
+    </div>
+    <hr />
+    <div class="modal-body">
+      <div id="modal-content">
+        <p>{{ modalContent?.content }}</p>
+      </div>
+    </div>
+    <hr />
+    <div class="modal-footer">
+      <button class="btn btn-primary md" (click)="confirmModal()">
+        confirm
+      </button>
+    </div>
+  </div>
+</div>

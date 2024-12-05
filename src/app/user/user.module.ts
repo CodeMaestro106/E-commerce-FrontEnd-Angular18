@@ -25,17 +25,14 @@ import { ProductCardComponentComponent } from './product/product-card-component/
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Product3dViewComponent } from './product/product-3d-view/product-3d-view.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { ModelViewerComponent } from './product/model-viewer/model-viewer.component';
 
 const routes: Routes = [
-  //   { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard] }, // Protect admin routes with RoleGuard
-  // { path: 'dashboard', component: DashboardComponent }, // Public user profile route
   { path: 'cart', component: CartMainComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'model-view', component: ModelViewerComponent },
-
-  // Other routes for your app
 ];
 
 @NgModule({
@@ -48,14 +45,16 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    BrowserModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreModule.forFeature(cartFeatureKey, cartReducer),
     EffectsModule.forFeature([CartEffect]),
     StoreModule.forFeature(categoryFeatureKey, categoryReducer),
     EffectsModule.forFeature([CategoryEffects]),
     StoreModule.forFeature(productFeatureKey, productReducer),
     EffectsModule.forFeature([ProductEffects]),
-
+    RouterModule.forChild(routes),
     CartItemComponent,
     ProductCardComponentComponent,
     FormsModule,
@@ -63,4 +62,3 @@ const routes: Routes = [
   ],
 })
 export class UserModule {}
-//

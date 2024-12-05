@@ -4,6 +4,7 @@
     <div class="col-md-8"><h2>Category List</h2></div>
     <div class="col-md-4 d-flex justify-content-end align-items-center">
       <button type="button" (click)="createCategory()" class="btn btn-info">
+        <i class="fas fa-plus-circle"></i>
         Create
       </button>
     </div>
@@ -21,8 +22,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of categories$ | async; let i = index">
-        <td>{{ i + 1 }}</td>
+      <tr *ngFor="let category of displayData; let i = index">
+        <td>{{ i + currentPage * pageSize + 1 }}</td>
         <td>{{ category.name }}</td>
         <td>{{ category.createdAt | date: 'yyyy-MM-dd' }}</td>
         <td>{{ category.updatedAt | date: 'yyyy-MM-dd' }}</td>
@@ -33,6 +34,7 @@
               (click)="categoryDetails(category.id)"
               class="btn btn-secondary btn-sm"
             >
+              <i class="fas fa-edit"></i>
               Details
             </button>
 
@@ -41,6 +43,7 @@
               (click)="updateCategory(category.id)"
               class="btn btn-info btn-sm ms-2"
             >
+              <i class="fas fa-edit"></i>
               Edit
             </button>
 
@@ -49,6 +52,7 @@
               (click)="deleteCategory(category.id)"
               class="btn btn-danger btn-sm ms-2"
             >
+              <i class="fas fa-trash-alt"></i>
               Delete
             </button>
           </div>
@@ -56,4 +60,24 @@
       </tr>
     </tbody>
   </table>
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="currentPage"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)"
+  ></mat-paginator>
+  <!-- Pagination controls -->
 </div>
+
+<!-- <app-delete-modal
+  *ngIf="isModalOpen$ | async
+  [title]="'Delte Category'"
+  [content]="
+    'Are you sure you want to remove this category? The category will be removed from this dashboard but can be added again later if need be'
+  "
+  (close)="closeDeleteModal()"
+  (confirm)="confirmDeleteModal()"
+>
+  <p>This is the content of the modal!</p>
+</app-delete-modal> -->

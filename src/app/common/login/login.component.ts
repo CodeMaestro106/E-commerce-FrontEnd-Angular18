@@ -13,6 +13,8 @@ import { map, of } from 'rxjs';
 import { login } from '../../auth/auth.actions';
 import { AsyncPipe } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
+import { AuthStorageService } from '../../auth/auth.storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +42,11 @@ export class LoginComponent implements OnInit {
   email$: Observable<any>;
   error$: Observable<string | null>;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private authStorageService: AuthStorageService,
+    private router: Router,
+  ) {
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectAuthError);
 
@@ -53,7 +59,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authStorageService.getUser()) {
+      // User is logged in, redirect to dashboard or some other page
+      this.router.navigate(['admin/dashboard']); // Redirect to dashboard, for example
+    }
+  }
 
   onSubmit(): void {
     if (this.loginForm.valid) {

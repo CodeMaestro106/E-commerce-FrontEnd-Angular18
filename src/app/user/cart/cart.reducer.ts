@@ -12,33 +12,6 @@ export const initialState: CartState = {
 
 export const cartReducer = createReducer(
   initialState,
-  // add item
-  // on(CartActions.itemAddedSuccess, (store: CartState, result) => {
-  //   const existingItem = store.cartItems.find(
-  //     ({ id }) => id === result.cartItem.id,
-  //   );
-  //   return {
-  //     ...store,
-  //     cartItems: store.cartItems
-  //       .map((cartItem) =>
-  //         cartItem.Product.id !== result.cartItem.id
-  //           ? cartItem
-  //           : { ...cartItem, quantity: cartItem.quantity + 1 },
-  //       )
-  //       .concat(
-  //         existingItem
-  //           ? []
-  //           : [
-  //               {
-  //                 id: result.cartItem.id,
-  //                 quantity: 1,
-  //                 Product: result.cartItem.Product,
-  //               },
-  //             ],
-  //       ),
-  //     loading: false, // Set loading to false as the data has been loaded
-  //   };
-  // }),
   on(CartActions.itemAddedFailure, (store: CartState, result) => {
     return {
       ...store,

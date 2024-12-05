@@ -24,36 +24,42 @@
             type="text"
             maxlength="1"
             formControlName="first"
+            (keydown)="onKeydown($event, 0)"
           />
           <input
             class="m-2 text-center form-control rounded"
             type="text"
             maxlength="1"
             formControlName="second"
+            (keydown)="onKeydown($event, 1)"
           />
           <input
             class="m-2 text-center form-control rounded"
             type="text"
             maxlength="1"
             formControlName="third"
+            (keydown)="onKeydown($event, 2)"
           />
           <input
             class="m-2 text-center form-control rounded"
             type="text"
             maxlength="1"
             formControlName="fourth"
+            (keydown)="onKeydown($event, 3)"
           />
           <input
             class="m-2 text-center form-control rounded"
             type="text"
             maxlength="1"
             formControlName="fifth"
+            (keydown)="onKeydown($event, 4)"
           />
           <input
             class="m-2 text-center form-control rounded"
             type="text"
             maxlength="1"
             formControlName="sixth"
+            (keydown)="onKeydown($event, 5)"
           />
         </div>
         <div class="mt-4">

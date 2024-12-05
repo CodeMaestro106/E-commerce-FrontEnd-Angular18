@@ -19,9 +19,11 @@ import { UserModule } from './user/user.module';
 import { AdminModule } from './admin/admin.module';
 import { RegisterComponent } from './common/register/register.component';
 import { OtpComponent } from './common/otp/otp.component';
-import { SideBarComponent } from './common/sidebar/sidebar.component';
+import { SideBarComponent } from './admin/sidebar/sidebar.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { NotFoundComponent } from './common/notfound/notfound.component';
+
+import { DeleteModalComponent } from './common/modal/delete/delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { NotFoundComponent } from './common/notfound/notfound.component';
     UserModule,
     AdminModule,
     FormsModule,
+
+    DeleteModalComponent,
   ],
   exports: [AppComponent],
   providers: [httpInterceptorProviders],

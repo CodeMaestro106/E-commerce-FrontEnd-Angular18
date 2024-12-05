@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { CategoryState } from './category.type';
 import {
-  getCategoryListAction,
   getCategoryListSuccess,
   getCategoryListFailure,
 } from './category.actions';
@@ -18,16 +17,11 @@ export const categoryReducer = createReducer(
   initialState,
   // get category list
   on(getCategoryListSuccess, (store: CategoryState, result) => {
-    const categories = result.categories.map((item) => {
-      return {
-        id: item.id,
-        name: item.name,
-      };
-    });
-    const combinedCategoryItems = [...store.categories, ...categories];
+    alert(result);
+    const combinedCategoryItems = [...store.categories, ...result.categories];
     // Filter for unique items based on `id`
     const uniqueCategoryItems = combinedCategoryItems.filter(
-      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id),
     );
     return {
       ...store,
@@ -44,5 +38,5 @@ export const categoryReducer = createReducer(
       loading: false, // Set loading to false as the data has been loaded
       error: result.error, // Reset the error state (if any)
     };
-  })
+  }),
 );

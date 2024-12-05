@@ -6,14 +6,14 @@ import {
 } from '@ngrx/store';
 import { Product } from './product.type';
 
-export const getProductListAction = createAction('[PRODUCT] load categories');
+export const getProductListAction = createAction('[PRODUCT] load products');
 
 export const getProductListSuccess = createAction(
   '[PRODUCT] get Product List is success',
-  props<{ products: Product[] }>()
+  props<{ products: Product[] }>(),
 );
 
 export const getProductListFailure = createAction(
   '[PRODUCT] get Product List is failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );

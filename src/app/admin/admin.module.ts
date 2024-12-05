@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CreateCategoryComponent } from './category/create-category/create-category.component';
@@ -35,6 +35,11 @@ import { UserEffects } from './user/user.effects';
 import { productFeatureKey, productReducer } from './product/product.reducer';
 import { ProductEffects } from './product/product.effects';
 import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
@@ -87,7 +92,11 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     CommonModule,
+    StoreModule.forRoot({}),
     RouterModule.forChild(routes),
     FormsModule,
     StoreModule.forFeature(categoryFeatureKey, categoryReducer),
@@ -101,6 +110,9 @@ const routes: Routes = [
 
     StoreModule.forFeature(productFeatureKey, productReducer),
     EffectsModule.forFeature([ProductEffects]),
+
+    MatPaginatorModule, // Add MatPaginatorModule here
+    MatTableModule, // Add MatTableModule if you're using tables
   ],
 })
 export class AdminModule {}

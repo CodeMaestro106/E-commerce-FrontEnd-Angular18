@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div *ngIf="isLoggedIn$ | async">
+<div *ngIf="(isLoggedIn$ | async) && (role$ | async) === 'ADMIN'">
   <div class="row mt-3">
     <div class="col-md-2">
       <app-sidebar></app-sidebar>
@@ -11,5 +11,18 @@
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>
+
+<!-- User Layout -->
+<div *ngIf="(isLoggedIn$ | async) && (role$ | async) === 'USER'">
+  <div class="container mt-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- Fallback for Unauthenticated Users -->
+<div *ngIf="!(isLoggedIn$ | async)">
+  <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>
+
+<app-delete-modal></app-delete-modal>

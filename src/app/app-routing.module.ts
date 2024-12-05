@@ -9,16 +9,10 @@ import { OtpComponent } from './common/otp/otp.component';
 import { NotFoundComponent } from './common/notfound/notfound.component';
 
 const routes: Routes = [
-  //   { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard] }, // Protect admin routes with RoleGuard
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent }, // Public user profile route
   { path: 'login', component: LoginComponent }, // publice login route
   { path: 'register', component: RegisterComponent },
   { path: 'verify-otp', component: OtpComponent },
-  { path: '**', component: NotFoundComponent },
-  // publice login route
-
-  // Other routes for your app
 ];
 
 @NgModule({

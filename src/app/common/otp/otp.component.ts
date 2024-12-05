@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, viewChildren } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -22,8 +22,6 @@ export class OtpComponent {
   error$: Observable<string | null>;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     private store: Store,
     private fb: FormBuilder,
   ) {
@@ -62,6 +60,8 @@ export class OtpComponent {
       console.error('Invalid OTP length. Please paste a 6-digit OTP.');
     }
   }
+
+  onKeydown(event: KeyboardEvent, index: number) {}
 
   getOtp(): string {
     // Extract values from the form

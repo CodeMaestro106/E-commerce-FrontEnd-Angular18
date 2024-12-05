@@ -17,7 +17,8 @@ import { jwtDecode } from 'jwt-decode';
 export class AppComponent {
   title = 'Angular-19-E-Commerce-Frontend-APP-with-NGRX';
   isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  role?: string;
+  role$ = new BehaviorSubject<string>('USER');
+
   constructor(private authStorageService: AuthStorageService) {}
 
   ngOnInit(): void {
@@ -25,8 +26,8 @@ export class AppComponent {
 
     if (user) {
       const decodedToken: any = jwtDecode(user.token);
-      this.role = decodedToken.role || null;
-
+      const newRole = decodedToken.role || '';
+      this.role$.next(newRole);
       this.isLoggedIn$.next(true);
     }
   }

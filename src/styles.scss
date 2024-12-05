@@ -8,3 +8,6 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* styles.scss */
+@import '@angular/material/prebuilt-themes/indigo-pink.css'; // Default theme

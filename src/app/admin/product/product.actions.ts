@@ -6,7 +6,7 @@ import {
 } from '@ngrx/store';
 import { Product } from './product.type';
 
-export const getProductListAction = createAction('[PRODUCT] load categories');
+export const getProductListAction = createAction('[PRODUCT] load products');
 
 export const getProductListSuccess = createAction(
   '[PRODUCT] get Product List is success',
