@@ -43,5 +43,10 @@ export class ProductService {
     return this.http.delete<{ id: number }>(`${this.baseURL}/${id}`);
   }
 
+  // user
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseURL}/${id}`);
+  }
+
   constructor(private http: HttpClient) {}
 }

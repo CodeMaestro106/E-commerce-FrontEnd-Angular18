@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { CartItem } from '../cart.type';
+import { CartItem } from '../../../store/user-cart/cart.type';
 
 import { CommonModule, Location } from '@angular/common';
 

@@ -1,0 +1,71 @@
+<div class="container">
+  <br />
+  <div class="row">
+    <div class="col d-flex justify-content-start align-content-center">
+      <!-- Continue Shopping Button -->
+      <div class="text-start ml-auto mb-3">
+        <button class="btn btn-outline-primary" (click)="goBack()">
+          <i class="bi bi-arrow-left me-2"></i>
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="cart-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main-heading mb-10">My wishlist</div>
+          <div class="table-wishlist">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Product Name</th>
+                  <th>Unit Price</th>
+                  <th>Stock</th>
+                  <th>Action</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of products$ | async; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <div class="display-flex align-center">
+                      <div class="img-product">
+                        <img
+                          [src]="product.imgUrl"
+                          alt=""
+                          class="mCS_img_loaded"
+                        />
+                      </div>
+                      <div class="name-product">{{ product.name }}</div>
+                    </div>
+                  </td>
+                  <td class="price">$ {{ product.price }}</td>
+                  <td>
+                    <span class="in-stock-box">{{ product.stock }}</span>
+                  </td>
+                  <td>
+                    <button class="round-black-btn small-btn">
+                      <i class="fa fa-cart-plus"></i>
+                    </button>
+                  </td>
+                  <td class="text-center">
+                    <button
+                      class="round-black-btn small-btn"
+                      (click)="deleteProduct(product.id)"
+                    >
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

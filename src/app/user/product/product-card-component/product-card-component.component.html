@@ -1,16 +1,23 @@
-<div class="product-card shadow-lg" (click)="gotoProductDetail()">
-  <div class="position-relative">
+<div class="product-card shadow-lg">
+  <div class="mt-1">
+    <span class="discount-badge">-20%</span>
+    <button class="wishlist-btn" (click)="toggleWishList()">
+      <div *ngIf="isWishList$ | async; else wishListIcon">
+        <i class="bi bi-heart-fill"></i>
+      </div>
+      <ng-template #wishListIcon>
+        <i class="bi bi-heart"></i>
+      </ng-template>
+    </button>
+  </div>
+  <div (click)="gotoProductDetail()" class="mt-3">
     <img
       src="{{ this.product.imgUrl }}"
       class="product-image w-100"
       alt="Product"
     />
-    <span class="discount-badge">-20%</span>
-    <button class="wishlist-btn" (click)="addProductInWishList()">
-      <i class="bi bi-heart"></i>
-    </button>
   </div>
-  <div class="p-3">
+  <div class="p-3" (click)="gotoProductDetail()">
     <span class="category-badge mb-2 d-inline-block">
       {{ product.category }}
     </span>
@@ -20,11 +27,11 @@
     <div class="flex-grow-1"></div>
     <div class="sticky-footer">
       <div class="rating-stars mb-2">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-half"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-fill text-warning"></i>
+        <i class="bi bi-star-half text-warning"></i>
         <span class="text-muted ms-2">(4.5)</span>
       </div>
       <div class="d-flex justify-content-between align-items-center">

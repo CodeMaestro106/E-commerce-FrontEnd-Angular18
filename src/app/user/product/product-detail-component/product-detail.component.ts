@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../product.type';
+import { Product } from '../../../store/product/product.type';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../product.service';
+import { ProductService } from '../../../store/product/product.service';
 import { Location } from '@angular/common';
 
 import { Store } from '@ngrx/store';
-import * as CartAtions from '../../cart/cart.actions';
 import { BehaviorSubject } from 'rxjs';
+
+import * as CartAtions from '../../../store/user-cart/cart.actions';
+import * as FavoriteActions from '../../../store/favorite/favorite.actions';
 
 @Component({
   selector: 'app-product-details',
@@ -83,7 +85,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   close3dViewModal(): void {
-      this.show3dViewModal$.next(false);
+    this.show3dViewModal$.next(false);
   }
 
   gotoCart(productId: number, quantity: string): void {
@@ -98,5 +100,12 @@ export class ProductDetailComponent implements OnInit {
   changeImage(id: string, src: string): void {
     this.mainImage.id = id;
     this.mainImage.src = src;
+  }
+
+  addToWishList() {
+    console.log('add favorite click');
+    this.store.dispatch(
+      FavoriteActions.addFavoriteAction({ productId: this.id }),
+    );
   }
 }

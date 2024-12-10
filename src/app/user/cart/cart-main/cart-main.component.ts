@@ -1,24 +1,13 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  CUSTOM_ELEMENTS_SCHEMA,
-  OnInit,
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
-  selectCartState,
   selectCartItems,
-  selectLoading,
-  selectError,
   selectCartTotalPrice,
-} from '../cart.selectors';
+} from '../../../store/user-cart/cart.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CartItem } from '../cart.type';
-import * as CartActions from '../cart.actions';
-import { CartItemComponent } from '../cart-item/cart-item.component';
+import { CartItem } from '../../../store/user-cart/cart.type';
+import * as CartActions from '../../../store/user-cart/cart.actions';
 
 import { Location } from '@angular/common';
 
@@ -41,8 +30,8 @@ export class CartMainComponent {
   }
 
   ngOnInit() {
+    console.log('cart history => ', history.state);
     this.store.dispatch(CartActions.getItemsInCart());
-    // console.log('history => ', history.state);
   }
 
   reduceItem(cartItem: CartItem) {

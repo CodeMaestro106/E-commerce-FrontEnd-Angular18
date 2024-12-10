@@ -15,6 +15,7 @@ export const cartReducer = createReducer(
   // get cart list
   on(getCartListSuccess, (store: CartState, result) => {
     const combinedCartItems = [...store.carts, ...result.carts];
+    alert(combinedCartItems);
     // Filter for unique items based on `id`
     const uniqueCartItems = combinedCartItems.filter(
       (item, index, self) => index === self.findIndex((t) => t.id === item.id),

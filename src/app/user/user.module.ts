@@ -6,9 +6,9 @@ import { Routes } from '@angular/router';
 import { CartMainComponent } from './cart/cart-main/cart-main.component';
 import { CartItemComponent } from './cart/cart-item/cart-item.component';
 import { StoreModule } from '@ngrx/store';
-import { cartFeatureKey, cartReducer } from './cart/cart.reducer';
+import { cartFeatureKey, cartReducer } from '../store/user-cart/cart.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { CartEffect } from './cart/cart.effects';
+import { CartEffect } from '../store/user-cart/cart.effects';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,10 +16,13 @@ import { ProductDetailComponent } from './product/product-detail-component/produ
 import {
   categoryFeatureKey,
   categoryReducer,
-} from './category/category.reducer';
-import { CategoryEffects } from './category/category.effects';
-import { productFeatureKey, productReducer } from './product/product.reducer';
-import { ProductEffects } from './product/product.effects';
+} from '../store/category/category.reducer';
+import { CategoryEffects } from '../store/category/category.effects';
+import {
+  productFeatureKey,
+  productReducer,
+} from '../store/product/product.reducer';
+import { ProductEffects } from '../store/product/product.effects';
 import { ProductCardComponentComponent } from './product/product-card-component/product-card-component.component';
 
 import { ProfileComponent } from './profile/profile.component';
@@ -27,9 +30,16 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Product3dViewComponent } from './product/product-3d-view/product-3d-view.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModelViewerComponent } from './product/model-viewer/model-viewer.component';
+import { FavoriteComponent } from './favorite/favorite.component';
+import {
+  favoriteFeatureKey,
+  favoriteReducer,
+} from '../store/favorite/favorite.reducer';
+import { FavoriteEffects } from '../store/favorite/favorite.effects';
 
 const routes: Routes = [
   { path: 'cart', component: CartMainComponent },
+  { path: 'favorite', component: FavoriteComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'model-view', component: ModelViewerComponent },
@@ -41,11 +51,13 @@ const routes: Routes = [
     CartMainComponent,
     ProductDetailComponent,
     ProfileComponent,
+    FavoriteComponent,
     ModelViewerComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
+    FormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreModule.forFeature(cartFeatureKey, cartReducer),
@@ -54,10 +66,12 @@ const routes: Routes = [
     EffectsModule.forFeature([CategoryEffects]),
     StoreModule.forFeature(productFeatureKey, productReducer),
     EffectsModule.forFeature([ProductEffects]),
+    StoreModule.forFeature(favoriteFeatureKey, favoriteReducer),
+    EffectsModule.forFeature([FavoriteEffects]),
     RouterModule.forChild(routes),
     CartItemComponent,
     ProductCardComponentComponent,
-    FormsModule,
+
     Product3dViewComponent,
   ],
 })

@@ -44,9 +44,12 @@ export class CartEffect {
   getItemsInCart$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(getItemsInCart),
+      tap(() => console.log('get Item cart ')),
+
       mergeMap(() =>
         this.cartService.getCart().pipe(
           map((response) => {
+            console.log('get user cart Item respones=>', response);
             return getItemsInCartSuccess({ cartitems: response });
           }),
           catchError((error) => {
@@ -72,16 +75,16 @@ export class CartEffect {
     { dispatch: false },
   );
 
-  // getItemsInCartFailure$ = createEffect(
-  //   () =>
-  //     inject(Actions).pipe(
-  //       ofType(getItemsInCartFailure),
-  //       tap(() => {
-  //         this.router.navigate(['/']);
-  //       }),
-  //     ),
-  //   { dispatch: false },
-  // );
+  getItemsInCartFailure$ = createEffect(
+    () =>
+      inject(Actions).pipe(
+        ofType(getItemsInCartFailure),
+        tap(() => {
+          this.router.navigate(['/dashboard']);
+        }),
+      ),
+    { dispatch: false },
+  );
 
   constructor(
     private actions$: Actions,

@@ -1,19 +1,23 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { Category } from '../category/category.type';
-import * as CategoryActions from '../category/category.actions';
+import { Category } from '../../store/category/category.type';
+import * as CategoryActions from '../../store/category/category.actions';
 
-import * as ProductActions from '../product/product.actions';
-import { Product } from '../product/product.type';
+import * as ProductActions from '../../store/product/product.actions';
+import { Product } from '../../store/product/product.type';
 
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { selectCategoryItems } from '../category/category.selector';
-import { selectProductItems } from '../product/product.selector';
+
+import { selectCategoryItems } from '../../store/category/category.selector';
+import { selectProductItems } from '../../store/product/product.selector';
+import { selectProductsInFavoriteList } from '../../store/favorite/favorite.selector';
+
 import { Router } from '@angular/router';
 import { map, tap, distinctUntilChanged } from 'rxjs';
 import { AuthStorageService } from '../../auth/auth.storage.service';
 
-import * as CartAtions from '../cart/cart.actions';
+import * as CartAtions from '../../store/user-cart//cart.actions';
+import * as FavoriteActions from '../../store/favorite/favorite.actions';
 
 export enum OrderItem {
   NEWEST = 'Newest',
@@ -28,8 +32,10 @@ export enum OrderItem {
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  categories$: Observable<Category[]>;
-  products$: Observable<Product[]>;
+  products$: Observable<Product[]> = new Observable<Product[]>();
+  categories$: Observable<Category[]> = new Observable<Category[]>();
+
+  favorites$: Observable<Product[]> = new Observable<Product[]>();
 
   // filter conditions
   private selectedCategories$ = new BehaviorSubject<number[]>([]);
@@ -45,9 +51,47 @@ export class DashboardComponent {
     private router: Router,
     private storageService: AuthStorageService,
     private cdRef: ChangeDetectorRef,
-  ) {
-    // Fetching categories and products
+  ) {}
+
+  // Handle category toggle (select or deselect categories)
+  toggleCategory(categoryId: number, isChecked: boolean): void {
+    const selectedIds = this.selectedCategories$.value;
+    if (isChecked) {
+      // Add category to selected categories
+      this.selectedCategories$.next([...selectedIds, categoryId]);
+    } else {
+      // Remove category from selected categories
+      this.selectedCategories$.next(
+        selectedIds.filter((id) => id !== categoryId),
+      );
+    }
+  }
+
+  changeSortOrder(orderItem: string): void {
+    this.orderItem$.next(orderItem);
+  }
+
+  // Handle price filter slider change
+  onPriceChange(newPrice: string): void {
+    this.priceFilter$.next(parseInt(newPrice, 10)); // Update the price filter
+  }
+
+  ngOnInit(): void {
+    // Fetching categories
     this.categories$ = this.store.select(selectCategoryItems);
+    this.products$ = this.store.select(selectProductItems);
+
+    this.products$.subscribe((products) => {
+      if (!products || products.length === 0) {
+        console.log('get products');
+        this.getProducts();
+      }
+    });
+    this.categories$.subscribe((categories) => {
+      if (!categories || categories.length === 0) {
+        this.getCategories();
+      }
+    });
 
     // Combining products, selected categories, and price filter
     this.products$ = combineLatest([
@@ -66,8 +110,6 @@ export class DashboardComponent {
               selectedCategories.length === 0 ||
               selectedCategories.includes(product.categoryId),
           );
-
-          console.log(filteredProducts);
 
           if (filteredProducts.length > 0) {
             const newMaxPrice = Math.max(
@@ -119,32 +161,12 @@ export class DashboardComponent {
     );
   }
 
-  // Handle category toggle (select or deselect categories)
-  toggleCategory(categoryId: number, isChecked: boolean): void {
-    const selectedIds = this.selectedCategories$.value;
-    if (isChecked) {
-      // Add category to selected categories
-      this.selectedCategories$.next([...selectedIds, categoryId]);
-    } else {
-      // Remove category from selected categories
-      this.selectedCategories$.next(
-        selectedIds.filter((id) => id !== categoryId),
-      );
-    }
-  }
-
-  changeSortOrder(orderItem: string): void {
-    this.orderItem$.next(orderItem);
-  }
-
-  // Handle price filter slider change
-  onPriceChange(newPrice: string): void {
-    this.priceFilter$.next(parseInt(newPrice, 10)); // Update the price filter
-  }
-
-  ngOnInit(): void {
-    // Dispatch actions to load category and product list
+  private getCategories() {
     this.store.dispatch(CategoryActions.getCategoryListAction());
+    console.log('category list reload =>');
+  }
+
+  private getProducts() {
     this.store.dispatch(ProductActions.getProductListAction());
   }
 
@@ -161,7 +183,18 @@ export class DashboardComponent {
     }
   }
 
-  addProductInWishList(item: Product): void {}
+  addProductInWishList(item: Product): void {
+    console.log('add favorite click');
+    this.store.dispatch(
+      FavoriteActions.addFavoriteAction({ productId: item.id }),
+    );
+  }
+
+  removeProductInWishList(item: Product): void {
+    this.store.dispatch(
+      FavoriteActions.deleteFavoriteAction({ productId: item.id }),
+    );
+  }
 
   gotoProductDetail(item: Product): void {
     this.router.navigate(['product', item.id]);

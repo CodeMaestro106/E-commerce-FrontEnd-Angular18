@@ -17,7 +17,7 @@ import { getCategoryListAction } from '../../../store/category/category.actions'
 import { MatPaginator } from '@angular/material/paginator';
 import { PageEvent } from '@angular/material/paginator';
 import { Category } from '../../../store/category/category.type';
-import { filter } from 'lodash';
+import { ModalService } from '../../../common/modal/service/modal.service';
 
 @Component({
   selector: 'app-product-list',
@@ -38,6 +38,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store,
+    private modalService: ModalService,
   ) {}
   ngOnInit() {
     // Fetching categories
@@ -139,7 +140,14 @@ export class ProductListComponent implements OnInit {
   }
 
   deleteProduct(productId: number) {
-    this.store.dispatch(deleteProductAction({ id: productId }));
+    const modalData = {
+      title: 'Delete Product',
+      content: 'Are you sure your want to remove the product?',
+      confirmAction: () => {
+        this.store.dispatch(deleteProductAction({ id: productId }));
+      },
+    };
+    this.modalService.openModal(modalData);
   }
 
   // paginator.

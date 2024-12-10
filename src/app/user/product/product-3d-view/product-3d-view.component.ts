@@ -25,8 +25,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 })
 export class Product3dViewComponent {
   @Input() isOpen: boolean = false; // Input to control modal visibility
-  @ViewChild('modal3dContainer', { static: true })
-  modal3dContainer!: ElementRef;
+  @ViewChild('modal3dContainer', { static: true }) modal3dContainer!: ElementRef;
   @Output() close = new EventEmitter<void>(); // EventEmitter to close the modal
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;

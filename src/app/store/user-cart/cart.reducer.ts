@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { CartItem, CartState, Product } from './cart.type';
 import * as CartActions from './cart.actions';
 
-export const cartFeatureKey = 'cart';
+export const cartFeatureKey = 'user-cart';
 
 export const initialState: CartState = {
   cartItems: [],

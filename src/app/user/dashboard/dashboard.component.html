@@ -122,8 +122,6 @@
             </label>
           </div>
         </div>
-
-        <button class="btn btn-outline-primary w-100">Apply Filters</button>
       </div>
     </div>
 
@@ -135,6 +133,7 @@
           <app-product-card-component
             [product]="item"
             (addProductInWishListEvent)="addProductInWishList(item)"
+            (removeProductInWishListEvent)="removeProductInWishList(item)"
             (gotoCartEvent)="gotoCart(item)"
             (gotoProductDetailEvent)="gotoProductDetail(item)"
           ></app-product-card-component>
