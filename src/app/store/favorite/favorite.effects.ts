@@ -21,6 +21,7 @@ import {
 import { FavoriteService } from './favorite.service';
 import { Router } from '@angular/router';
 import { ProductService } from '../product/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class FavoriteEffects {
@@ -33,12 +34,14 @@ export class FavoriteEffects {
             const processData = response.map((item) => {
               return this.productService.transformToProduct(item);
             });
+
             return getFavoriteListSuccess({ products: processData });
           }),
           catchError((error) => {
             const errorMessage =
               error?.error?.msg ||
               'Adding Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
             return of(actionFavoriteFailure({ error: errorMessage }));
           }),
         ),
@@ -59,14 +62,14 @@ export class FavoriteEffects {
             const processData = this.productService.transformToProduct(
               response.product,
             );
+            this.toastService.success('', 'Success');
             return addFavoriteSuccess({ product: processData });
           }),
           catchError((error) => {
-            console.log('add product respones error =>', error);
-
             const errorMessage =
               error?.error?.msg ||
               'Adding Product to Favorite List had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
             return of(actionFavoriteFailure({ error: errorMessage }));
           }),
         ),
@@ -83,12 +86,14 @@ export class FavoriteEffects {
       switchMap((action) =>
         this.favoriteService.deleteProductInFavorite(action.productId).pipe(
           map((response) => {
+            this.toastService.success('', 'Success');
             return deleteFavoriteSuccess({ productId: action.productId });
           }),
           catchError((error) => {
             const errorMessage =
               error?.error?.msg ||
               'Deleting Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
             return of(actionFavoriteFailure({ error: errorMessage }));
           }),
         ),
@@ -99,5 +104,6 @@ export class FavoriteEffects {
   constructor(
     private favoriteService: FavoriteService,
     private productService: ProductService,
+    private toastService: ToastrService,
   ) {}
 }

@@ -60,7 +60,7 @@ export class FavoriteComponent extends BaseComponent implements OnInit {
     this.modalService.openModal(modalData);
   }
 
-  gotoCart(productId: number): void {
+  addProductInCart(productId: number): void {
     this.store.dispatch(
       addItemInCart({
         productId: productId,

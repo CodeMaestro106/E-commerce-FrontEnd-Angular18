@@ -15,6 +15,7 @@ import { AsyncPipe } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthStorageService } from '../../auth/auth.storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +47,7 @@ export class LoginComponent implements OnInit {
     private store: Store,
     private authStorageService: AuthStorageService,
     private router: Router,
+    private toastService: ToastrService,
   ) {
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectAuthError);
@@ -69,7 +71,6 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      console.log(password);
       this.store.dispatch(login({ email, password }));
     }
   }

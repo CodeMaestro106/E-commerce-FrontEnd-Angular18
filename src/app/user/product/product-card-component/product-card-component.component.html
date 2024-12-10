@@ -17,11 +17,13 @@
       alt="Product"
     />
   </div>
-  <div class="p-3" (click)="gotoProductDetail()">
-    <span class="category-badge mb-2 d-inline-block">
-      {{ product.category }}
-    </span>
-    <h6 class="product-name mb-1">{{ product.name }}</h6>
+  <div class="p-3">
+    <div (click)="gotoProductDetail()">
+      <span class="category-badge mb-2 d-inline-block">
+        {{ product.category }}
+      </span>
+      <h6 class="product-name mb-1">{{ product.name }}</h6>
+    </div>
 
     <!-- Spacer to push the footer down -->
     <div class="flex-grow-1"></div>

@@ -11,3 +11,20 @@
   background-color: #f8f9fa;
   border-radius: 10px;
 }
+.in-stock-box {
+  background: #ff0000;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 25px;
+  padding: 4px 15px;
+  display: inline-block;
+  color: #fff;
+  cursor: pointer;
+}
+
+.in-stock-box:hover {
+  background-color: white;
+  color: #ff0000;
+  border-style: solid;
+  border-width: 1px;
+}

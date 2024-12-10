@@ -13,6 +13,7 @@ import {
 import { CartService } from './cart.service';
 import { EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CartEffect {
@@ -27,12 +28,15 @@ export class CartEffect {
           .pipe(
             // Call Server via service here
             map((response) => {
+              this.toastService.success('', 'Success');
               return getItemsInCartSuccess({ cartitems: response });
             }),
             catchError((error) => {
               const errorMessage =
                 error?.error?.msg ||
                 'Adding Cart info had failed. Please try again.';
+              this.toastService.error(errorMessage, 'Error');
+
               return of(itemAddedFailure({ error: errorMessage }));
             }),
           ),
@@ -56,6 +60,8 @@ export class CartEffect {
             const errorMessage =
               error?.error?.msg ||
               'Geting Cart info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
+
             return of(getItemsInCartFailure({ error: errorMessage }));
           }),
         ),
@@ -90,5 +96,6 @@ export class CartEffect {
     private actions$: Actions,
     private cartService: CartService,
     private router: Router,
+    private toastService: ToastrService,
   ) {}
 }

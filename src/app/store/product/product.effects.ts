@@ -22,6 +22,7 @@ import {
 } from './product.actions';
 import { ProductService } from './product.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ProductEffects {
@@ -34,12 +35,18 @@ export class ProductEffects {
             const processData = response.map((item) => {
               return this.productService.transformToProduct(item);
             });
+            this.toastService.success(
+              'Loading products info is successful',
+              'Success',
+            );
             return getProductListSuccess({ products: processData });
           }),
           catchError((error) => {
             const errorMessage =
               error?.error?.msg ||
-              'Adding Product info had failed. Please try again.';
+              'Loading Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
+
             return of(actionProductFailure({ error: errorMessage }));
           }),
         ),
@@ -67,6 +74,7 @@ export class ProductEffects {
             const errorMessage =
               error?.error?.msg ||
               'Adding Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
             return of(actionProductFailure({ error: errorMessage }));
           }),
         ),
@@ -92,6 +100,8 @@ export class ProductEffects {
             const errorMessage =
               error?.error?.msg ||
               'Adding Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
+
             return of(actionProductFailure({ error: errorMessage }));
           }),
         ),
@@ -114,6 +124,8 @@ export class ProductEffects {
             const errorMessage =
               error?.error?.msg ||
               'Deleting Product info had failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
+
             return of(actionProductFailure({ error: errorMessage }));
           }),
         ),
@@ -135,5 +147,6 @@ export class ProductEffects {
   constructor(
     private productService: ProductService,
     private router: Router,
+    private toastService: ToastrService,
   ) {}
 }

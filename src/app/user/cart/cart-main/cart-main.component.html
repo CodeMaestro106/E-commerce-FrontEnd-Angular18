@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="col d-flex justify-content-center align-content-center">
-          <h1>My cart 🛒</h1>
+          <h1>Cart List</h1>
         </div>
         <div class="col d-flex justify-content-end align-content-center">
           <!-- Continue Shopping Button -->
@@ -27,8 +27,11 @@
 
       <div class="card-container">
         <span *ngIf="items.length === 0">Empty cart 🕵🏻</span>
-        <div class="d-flex justify-content-end">
-          <p *ngIf="items.length > 0">
+        <div
+          class="d-flex justify-content-end align-items-center mt-2"
+          style="font-weight: 600"
+        >
+          <p *ngIf="items.length > 0" class="in-stock-box">
             Total: {{ totalPrice$ | async | currency }}
           </p>
         </div>

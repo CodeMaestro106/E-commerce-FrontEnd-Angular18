@@ -1,0 +1,20 @@
+.section-title {
+  margin-bottom: 25px;
+}
+
+.hover-zoom-img {
+  overflow: hidden;
+}
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+.categories-list li:not(:last-child) {
+  border-right: 1px solid #e5e5e5;
+}
+
+.categories-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

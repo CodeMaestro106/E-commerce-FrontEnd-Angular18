@@ -21,6 +21,7 @@ import { selectUser } from './auth.selectors';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 
 import { jwtDecode } from 'jwt-decode';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthEffects {
@@ -30,6 +31,7 @@ export class AuthEffects {
     private authStoreService: AuthStorageService,
     private router: Router,
     private store: Store,
+    private toastService: ToastrService,
   ) {
     console.log('Actions:', actions$); // Log actions$ to ensure it's injected correctly
   }
@@ -50,6 +52,8 @@ export class AuthEffects {
 
             const errorMessage =
               error?.error?.msg || 'Login failed. Please try again.';
+            this.toastService.error(errorMessage, 'Error');
+
             return of(loginFailure({ error: errorMessage }));
           }),
         ),
@@ -94,7 +98,7 @@ export class AuthEffects {
 
             const errorMessage =
               error?.error?.msg || 'Login failed. Please try again.';
-
+            this.toastService.error(errorMessage, 'Error');
             return of(loginFailure({ error: errorMessage }));
           }),
         ),
@@ -112,12 +116,18 @@ export class AuthEffects {
           .pipe(
             map((response) => {
               console.log(response);
+              this.toastService.success(
+                'User registered successfully',
+                'Success',
+              );
               return registerSuccess();
             }),
             catchError((error) => {
               console.log(error);
               const errorMessage =
                 error?.error?.msg || 'Register failed. Please try again.';
+              this.toastService.error(errorMessage, 'Error');
+
               return of(registerFailure({ error: errorMessage }));
             }),
           ),

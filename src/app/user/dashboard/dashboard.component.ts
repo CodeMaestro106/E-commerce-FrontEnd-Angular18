@@ -18,6 +18,7 @@ import { AuthStorageService } from '../../auth/auth.storage.service';
 
 import * as CartAtions from '../../store/user-cart//cart.actions';
 import * as FavoriteActions from '../../store/favorite/favorite.actions';
+import { ToastrService } from 'ngx-toastr';
 
 export enum OrderItem {
   NEWEST = 'Newest',
@@ -51,6 +52,7 @@ export class DashboardComponent {
     private router: Router,
     private storageService: AuthStorageService,
     private cdRef: ChangeDetectorRef,
+    private toastService: ToastrService,
   ) {}
 
   // Handle category toggle (select or deselect categories)
@@ -83,7 +85,6 @@ export class DashboardComponent {
 
     this.products$.subscribe((products) => {
       if (!products || products.length === 0) {
-        console.log('get products');
         this.getProducts();
       }
     });
@@ -163,7 +164,6 @@ export class DashboardComponent {
 
   private getCategories() {
     this.store.dispatch(CategoryActions.getCategoryListAction());
-    console.log('category list reload =>');
   }
 
   private getProducts() {
@@ -184,7 +184,6 @@ export class DashboardComponent {
   }
 
   addProductInWishList(item: Product): void {
-    console.log('add favorite click');
     this.store.dispatch(
       FavoriteActions.addFavoriteAction({ productId: item.id }),
     );

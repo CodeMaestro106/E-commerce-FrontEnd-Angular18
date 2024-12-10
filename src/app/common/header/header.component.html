@@ -1,100 +1,143 @@
 <header>
-  <nav class="navbar navbar-expand navbar-dark bg-dark p-2">
-    <a href="#" class="navbar-brand">E-commerce</a>
-    <div *ngIf="isLoggedIn$ | async">
-      <ul
-        class="navbar-nav mr-auto"
-        routerLinkActive="active"
-        *ngIf="role === 'ADMIN'; else userBoard"
-      >
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Admin
+  <div id="top-header" class="row">
+    <div id="top-header-container">
+      <ul class="header-links float-start col-md-8">
+        <li>
+          <a>
+            <i class="fa fa-phone"></i>
+            +021-95-51-84
           </a>
-          <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+        </li>
+        <li>
+          <a>
+            <i class="fa fa-regular fa-envelope"></i>
+            email.com
+          </a>
+        </li>
+        <li>
+          <a>
+            <i class="fa fa-map-marker"></i>
+            1734 Stonecoal Road
+          </a>
+        </li>
+      </ul>
+      <ul class="header-links float-end col-md-4">
+        <li>
+          <a>
+            <i class="fa fa-regular fa-dollar-sign"></i>
+            USD
+          </a>
+        </li>
+        <li>
+          <a>
+            <i class="fa fa-regular fa-user"></i>
+            My Account
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row bg-dark">
+    <nav class="navbar navbar-expand navbar-dark p-2 ms-auto me-auto col-md-8">
+      <a href="#" class="navbar-brand ms-3">E-commerce</a>
+      <div *ngIf="isLoggedIn$ | async">
+        <ul
+          class="navbar-nav mr-auto"
+          routerLinkActive="active"
+          *ngIf="role === 'ADMIN'; else userBoard"
+        >
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+              <li>
+                <a
+                  class="dropdown-item nav-link"
+                  routerLink="/admin/categories"
+                >
+                  Category
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item nav-link" routerLink="/admin/products">
+                  Product
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item nav-link" routerLink="/admin/cart">
+                  Cart
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item nav-link" routerLink="/admin/order">
+                  Order
+                </a>
+              </li>
+              <li><hr class="dropdown-divider bg-white" /></li>
+              <li>
+                <a class="dropdown-item nav-link" routerLink="/admin/users">
+                  User
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ng-template #userBoard>
+          <ul class="navbar-nav mr-auto" routerLinkActive="active">
             <li>
-              <a class="dropdown-item nav-link" routerLink="/admin/categories">
-                Category
+              <a class="dropdown-item nav-link" routerLink="/dashboard">
+                DashoBoard
               </a>
             </li>
             <li>
-              <a class="dropdown-item nav-link" routerLink="/admin/products">
+              <a class="dropdown-item nav-link" routerLink="/dashboard">
                 Product
               </a>
             </li>
             <li>
-              <a class="dropdown-item nav-link" routerLink="/admin/cart">
-                Cart
-              </a>
+              <a class="dropdown-item nav-link" routerLink="/cart">Cart</a>
             </li>
             <li>
-              <a class="dropdown-item nav-link" routerLink="/admin/order">
-                Order
-              </a>
-            </li>
-            <li><hr class="dropdown-divider bg-white" /></li>
-            <li>
-              <a class="dropdown-item nav-link" routerLink="/admin/users">
-                User
+              <a class="dropdown-item nav-link" routerLink="/favorite">
+                Favorite
               </a>
             </li>
           </ul>
-        </li>
-      </ul>
-      <ng-template #userBoard>
-        <ul class="navbar-nav mr-auto" routerLinkActive="active">
-          <li>
-            <a class="dropdown-item nav-link" routerLink="/dashboard">
-              DashoBoard
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item nav-link" routerLink="/dashboard">
-              Product
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item nav-link" routerLink="/cart">Cart</a>
-          </li>
-          <li>
-            <a class="dropdown-item nav-link" routerLink="/favorite">
-              Favorite
-            </a>
-          </li>
-        </ul>
-      </ng-template>
-    </div>
+        </ng-template>
+      </div>
 
-    <ul
-      class="navbar-nav ms-auto me-3"
-      *ngIf="!(isLoggedIn$ | async); else authenicatedBoard"
-    >
-      <li class="nav-item">
-        <a routerLink="/register" class="nav-link" routerLink="register">
-          Sign Up
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/login" class="nav-link" routerLink="login">Login</a>
-      </li>
-    </ul>
-    <ng-template #authenicatedBoard>
-      <ul class="navbar-nav ms-auto me-3">
+      <ul
+        class="navbar-nav ms-auto me-3"
+        *ngIf="!(isLoggedIn$ | async); else authenicatedBoard"
+      >
         <li class="nav-item">
-          <a routerLink="/profile" class="nav-link" routerLink="profile">
-            {{ username }}
+          <a routerLink="/register" class="nav-link" routerLink="register">
+            Sign Up
           </a>
         </li>
         <li class="nav-item">
-          <a routerLink class="nav-link" (click)="logout()">LogOut</a>
+          <a routerLink="/login" class="nav-link" routerLink="login">Login</a>
         </li>
       </ul>
-    </ng-template>
-  </nav>
+      <ng-template #authenicatedBoard>
+        <ul class="navbar-nav ms-auto me-3">
+          <li class="nav-item">
+            <a routerLink="/profile" class="nav-link" routerLink="profile">
+              {{ username }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink class="nav-link" (click)="logout()">LogOut</a>
+          </li>
+        </ul>
+      </ng-template>
+    </nav>
+  </div>
 </header>
