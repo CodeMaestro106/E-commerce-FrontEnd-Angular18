@@ -70,12 +70,13 @@ export class CartEffect {
   );
 
   // Navigate to cart page after succesful addition
+  // have a mistake!
   navigateToCart$ = createEffect(
     () =>
       inject(Actions).pipe(
         ofType(getItemsInCartSuccess),
         tap(() => {
-          this.router.navigate(['/cart']);
+          //this.router.navigate(['/cart']);
         }),
       ),
     { dispatch: false },

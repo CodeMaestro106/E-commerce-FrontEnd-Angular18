@@ -26,6 +26,8 @@ import { NotFoundComponent } from './common/notfound/notfound.component';
 
 import { DeleteModalComponent } from './common/modal/delete/delete-modal.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FeaturedProductsComponent } from './common/landing/featured-products/featured-products.component';
+import { LandingComponent } from './common/landing/landing.component';
 
 @NgModule({
   declarations: [
