@@ -14,6 +14,13 @@ export const selectProductsInFavoriteList = createSelector(
   },
 );
 
+export const selectProductsInFavoriteListCount = createSelector(
+  selectFavoriteState,
+  (state: FavoriteState) => {
+    return state.products.length;
+  },
+);
+
 // selector to get the loading state
 export const selectLoading = createSelector(
   selectFavoriteState,

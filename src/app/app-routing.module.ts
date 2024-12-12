@@ -10,11 +10,12 @@ import { NotFoundComponent } from './common/notfound/notfound.component';
 import { LandingComponent } from './common/landing/landing.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent }, // Public user profile route
+  { path: 'products', component: DashboardComponent }, // Public user profile route
   { path: 'login', component: LoginComponent }, // publice login route
   { path: 'register', component: RegisterComponent },
   { path: 'verify-otp', component: OtpComponent },
-  { path: 'landing', component: LandingComponent },
+  { path: '', component: LandingComponent, pathMatch: 'full' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
 ];
 
 @NgModule({

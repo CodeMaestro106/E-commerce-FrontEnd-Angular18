@@ -87,7 +87,7 @@ export class CartEffect {
       inject(Actions).pipe(
         ofType(getItemsInCartFailure),
         tap(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['']);
         }),
       ),
     { dispatch: false },

@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
     if (!userRole) {
       // If no token exists, redirect to login
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['']);
       return false;
     }
 
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
       const requiredRole = next.data['role'];
       if (requiredRole && userRole !== requiredRole) {
         // If the user's role doesn't match the required role, redirect to access denied
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['']);
         return false;
       }
 
@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
     } catch (error) {
       alert(error);
       // If token is invalid, redirect to login
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['']);
       return false;
     }
   }

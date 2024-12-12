@@ -149,9 +149,7 @@ export class AuthEffects {
                 .navigate(['/admin/dashboard'])
                 .then(() => window.location.reload());
             } else {
-              this.router
-                .navigate(['/dashboard'])
-                .then(() => window.location.reload());
+              this.router.navigate(['']).then(() => window.location.reload());
             }
           });
         }),
@@ -178,7 +176,7 @@ export class AuthEffects {
         ofType(logout),
         tap(() => {
           console.log('logout');
-          this.router.navigate(['/dashboard']).then(() => {
+          this.router.navigate(['']).then(() => {
             this.authStoreService.clean();
             window.location.reload();
           });

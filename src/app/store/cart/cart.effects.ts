@@ -20,12 +20,9 @@ export class CartEffects {
       switchMap(() =>
         this.cartService.getAllCartInfo().pipe(
           map((response) => {
-            console.log(response);
-
             const processData = response.map((item) => {
               return this.cartService.transformToCart(item);
             });
-            console.log(processData);
             return getCartListSuccess({ carts: processData });
           }),
           catchError((error) => {

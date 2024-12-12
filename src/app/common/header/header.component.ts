@@ -11,12 +11,18 @@ import { AuthStorageService } from '../../auth/auth.storage.service';
 import { AuthService } from '../../store/auth/auth.service';
 import { jwtDecode } from 'jwt-decode';
 import { Product } from '../../store/product/product.type';
-import { selectProductsInFavoriteList } from '../../store/favorite/favorite.selector';
+import {
+  selectProductsInFavoriteList,
+  selectProductsInFavoriteListCount,
+} from '../../store/favorite/favorite.selector';
 
 import { getFavoriteListAction } from '../../store/favorite/favorite.actions';
 import { CartItem } from '../../store/user-cart/cart.type';
 
-import { selectCartItems } from '../../store/user-cart/cart.selectors';
+import {
+  selectCartItems,
+  selectCartItemsCount,
+} from '../../store/user-cart/cart.selectors';
 import { getItemsInCart } from '../../store/user-cart/cart.actions';
 
 @Component({
@@ -28,11 +34,16 @@ import { getItemsInCart } from '../../store/user-cart/cart.actions';
 export class HeaderComponent {
   private roles: string[] = ['ADMIN', 'USER'];
   isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  username?: string;
+  username?: string = 'My account';
+  email?: string = 'email.com';
+
   role?: string;
 
   favoriteProducts$: Observable<Product[]> = new Observable<Product[]>();
   cartItems$: Observable<CartItem[]> = new Observable<CartItem[]>();
+
+  favoriteProductsCount$: Observable<number> = new Observable<number>();
+  cartItemsCount$: Observable<number> = new Observable<number>();
 
   constructor(
     private store: Store,
@@ -44,8 +55,12 @@ export class HeaderComponent {
   ngOnInit(): void {
     const user = this.authStorageService.getUser();
     this.favoriteProducts$ = this.store.select(selectProductsInFavoriteList);
+    this.favoriteProductsCount$ = this.store.select(
+      selectProductsInFavoriteListCount,
+    );
 
     this.cartItems$ = this.store.select(selectCartItems);
+    this.cartItemsCount$ = this.store.select(selectCartItemsCount);
 
     console.log('header user', user);
     if (user) {
@@ -68,6 +83,7 @@ export class HeaderComponent {
       }
 
       this.username = user.username;
+      this.email = user.email;
       this.isLoggedIn$.next(true);
     }
   }

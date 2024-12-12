@@ -28,6 +28,7 @@ import { DeleteModalComponent } from './common/modal/delete/delete-modal.compone
 import { ToastrModule } from 'ngx-toastr';
 import { FeaturedProductsComponent } from './common/landing/featured-products/featured-products.component';
 import { LandingComponent } from './common/landing/landing.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,6 @@ import { LandingComponent } from './common/landing/landing.component';
     HeaderComponent,
     RegisterComponent,
     OtpComponent,
-    SideBarComponent,
     FooterComponent,
     NotFoundComponent,
   ],
@@ -66,6 +66,7 @@ import { LandingComponent } from './common/landing/landing.component';
     FormsModule,
 
     DeleteModalComponent,
+    SideBarComponent,
   ],
   exports: [AppComponent],
   providers: [httpInterceptorProviders],

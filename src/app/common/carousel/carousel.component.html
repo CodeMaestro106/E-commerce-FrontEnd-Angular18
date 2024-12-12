@@ -1,0 +1,47 @@
+<div class="carousel-container">
+  <!-- carousel -->
+  <div class="carousel">
+    <!-- controls -->
+    <button class="control prev" (click)="onPreviousClick()">
+      <span class="arrow left"></span>
+    </button>
+
+    <button class="control next" (click)="onNextClick()">
+      <span class="arrow right"></span>
+    </button>
+
+    <ng-container *ngFor="let slide of slides; let i = index">
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          height: 100%;
+          padding: 0 100px;
+          cursor: pointer;
+        "
+        *ngIf="i === currentSlide"
+      >
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <div class="text-center">
+            <p class="mb-2">{{ slide.title }}</p>
+            <div class="row">
+              <h1 class="mb-4 mx-auto">
+                {{ slide.style }}
+              </h1>
+            </div>
+            <a
+              class="btn btn-lg btn-outline-dark font-medium"
+              routerLink="/products"
+            >
+              Shop Now
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img [src]="slide.src" class="slide" @carouselAnimation />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
