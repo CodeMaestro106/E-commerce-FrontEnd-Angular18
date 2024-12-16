@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../store/product/product.type';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../store/product/product.service';
 import { Location } from '@angular/common';
 
@@ -44,6 +44,7 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private location: Location,
     private store: Store,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +79,7 @@ export class ProductDetailComponent implements OnInit {
     });
   }
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/products']);
   }
   open3dViewModal(): void {
     this.show3dViewModal$.next(true);

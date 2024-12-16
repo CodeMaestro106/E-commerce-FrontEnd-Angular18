@@ -30,6 +30,10 @@ import { FeaturedProductsComponent } from './common/landing/featured-products/fe
 import { LandingComponent } from './common/landing/landing.component';
 import { RouterModule } from '@angular/router';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from './interceptor/load.interceptor';
+import { LoadingComponent } from './common/loading/loading.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,9 +71,17 @@ import { RouterModule } from '@angular/router';
 
     DeleteModalComponent,
     SideBarComponent,
+    LoadingComponent,
   ],
   exports: [AppComponent],
-  providers: [httpInterceptorProviders],
+  providers: [
+    httpInterceptorProviders,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent], // Bootstrap the standalone AppComponent here
 })
 export class AppModule {}

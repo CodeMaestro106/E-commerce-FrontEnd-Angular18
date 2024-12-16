@@ -10,6 +10,7 @@ import { CartItem } from '../../../store/user-cart/cart.type';
 import * as CartActions from '../../../store/user-cart/cart.actions';
 
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -23,6 +24,7 @@ export class CartMainComponent {
   constructor(
     private store: Store,
     private location: Location,
+    private router: Router,
   ) {
     this.cartItems$ = this.store.select(selectCartItems);
     this.totalPrice$ = this.store.select(selectCartTotalPrice);
@@ -48,6 +50,6 @@ export class CartMainComponent {
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['/products']);
   }
 }
