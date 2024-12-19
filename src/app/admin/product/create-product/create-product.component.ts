@@ -118,6 +118,8 @@ export class CreateProductComponent extends BaseComponent implements OnInit {
         this.selectedFile.name,
       );
 
+      console.log(formData.keys);
+
       this.store.dispatch(createProductAction({ product: formData }));
     } else {
       alert('Please select a product image.');

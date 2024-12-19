@@ -86,26 +86,29 @@ export class ProductEffects {
     inject(Actions).pipe(
       ofType(updateProductAction),
       tap(() => {
-        console.log('Product list effect');
+        console.log('Update Product effect');
       }),
-      switchMap((action) =>
-        this.productService.updateProduct(action.id, action.product).pipe(
-          map((response) => {
-            console.log(response);
-            const processData =
-              this.productService.transformToProduct(response);
-            return updateProductSuccess({ product: processData });
-          }),
-          catchError((error) => {
-            const errorMessage =
-              error?.error?.msg ||
-              'Adding Product info had failed. Please try again.';
-            this.toastService.error(errorMessage, 'Error');
+      switchMap((action) => {
+        console.log('update product =>', action.product);
+        return this.productService
+          .updateProduct(action.id, action.product)
+          .pipe(
+            map((response) => {
+              console.log(response);
+              const processData =
+                this.productService.transformToProduct(response);
+              return updateProductSuccess({ product: processData });
+            }),
+            catchError((error) => {
+              const errorMessage =
+                error?.error?.msg ||
+                'Adding Product info had failed. Please try again.';
+              this.toastService.error(errorMessage, 'Error');
 
-            return of(actionProductFailure({ error: errorMessage }));
-          }),
-        ),
-      ),
+              return of(actionProductFailure({ error: errorMessage }));
+            }),
+          );
+      }),
     ),
   );
 

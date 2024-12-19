@@ -36,6 +36,10 @@ import {
   favoriteReducer,
 } from '../store/favorite/favorite.reducer';
 import { FavoriteEffects } from '../store/favorite/favorite.effects';
+import { CheckoutComponent } from './checkout/checkout.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxStripeModule } from 'ngx-stripe';
 
 const routes: Routes = [
   { path: 'cart', component: CartMainComponent },
@@ -43,6 +47,10 @@ const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'model-view', component: ModelViewerComponent },
+  {
+    path: 'check-out',
+    component: CheckoutComponent,
+  },
 ];
 
 @NgModule({

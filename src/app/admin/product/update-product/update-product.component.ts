@@ -31,9 +31,11 @@ import { updateProductAction } from '../../../store/product/product.actions';
 })
 export class UpdateProductComponent extends BaseComponent implements OnInit {
   id: number = 0;
-  product$: Observable<Product | undefined>;
+  product$: Observable<Product | undefined> = new Observable<
+    Product | undefined
+  >();
   errorMessage$!: Observable<string | null>;
-  categories$: Observable<Category[]>;
+  categories$: Observable<Category[]> = new Observable<Category[]>();
   selectedCategoryId: number | null = null;
 
   selectedFile: File | null = null; // Store the selected file
@@ -69,13 +71,13 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
     injector: Injector,
   ) {
     super(injector);
+  }
+
+  ngOnInit() {
     this.categories$ = this.store.select(selectCategoryItems);
     this.errorMessage$ = this.store.select(selectError);
     this.id = this.route.snapshot.params['id'];
     this.product$ = this.store.select(selectedProductItem(this.id));
-  }
-
-  ngOnInit() {
     this.categories$.subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
@@ -124,6 +126,7 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
           formData.append('stock', product.stock.toString());
           formData.append('category', product.category);
 
+          console.log('update product =>', product.name);
           this.store.dispatch(
             updateProductAction({ id: this.id, product: formData }),
           );

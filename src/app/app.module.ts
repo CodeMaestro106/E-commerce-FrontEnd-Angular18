@@ -33,6 +33,8 @@ import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './interceptor/load.interceptor';
 import { LoadingComponent } from './common/loading/loading.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,9 @@ import { LoadingComponent } from './common/loading/loading.component';
     DeleteModalComponent,
     SideBarComponent,
     LoadingComponent,
+
+    // payment
+    NgxStripeModule.forRoot(environment.stripe.publicKey),
   ],
   exports: [AppComponent],
   providers: [

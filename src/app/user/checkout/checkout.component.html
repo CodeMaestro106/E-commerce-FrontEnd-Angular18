@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="card card-container">
+    <br />
+    <div class="card-header row">
+      <div class="col-8">
+        <h3>Payment</h3>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <button class="btn btn-info" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+          Go Back
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="paymentForm" class="checkout-form">
+        <div class="form-group">
+          <label for="username">User Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            [(ngModel)]="userName"
+            [placeholder]="userName"
+            readonly
+          />
+
+          <div
+            *ngIf="paymentForm.controls['name'].errors"
+            class="error text-danger"
+          >
+            <small *ngIf="paymentForm.controls['name'].errors?.['required']">
+              Name is required
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="email"
+            [(ngModel)]="userEmail"
+            [placeholder]="userEmail"
+            readonly
+          />
+
+          <div
+            *ngIf="paymentForm.controls['email'].errors"
+            class="error text-danger"
+          >
+            <small *ngIf="paymentForm.controls['email'].errors?.['required']">
+              Email is required
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Total Price</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="amount"
+            [(ngModel)]="totalPrice"
+            readonly
+          />
+          <div
+            *ngIf="paymentForm.controls['amount'].errors"
+            class="error text-danger"
+          >
+            <small *ngIf="paymentForm.controls['amount'].errors?.['required']">
+              Total Price is required
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <!-- <div
+            class="stripe-card"
+            ngxStripeCardGroup
+            [elementsOptions]="elementsOptions"
+          > -->
+          <label for="username">Enter payment details</label>
+
+          <div class="stripe-element mt-1 form-control">
+            <ngx-stripe-card
+              [options]="cardOptions"
+              [elementsOptions]="elementsOptions"
+            ></ngx-stripe-card>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="10px">
+            <div class="w-full stripe-element">
+              <ngx-stripe-card-expiry
+                [options]="cardOptions"
+              ></ngx-stripe-card-expiry>
+            </div>
+            <div class="w-full stripe-element">
+              <ngx-stripe-card-cvc
+                [options]="cardOptions"
+              ></ngx-stripe-card-cvc>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+
+        <div
+          class="form-group mt-3 d-flex justify-content-end align-items-center"
+        >
+          <button class="btn btn-primary btn-block" (click)="pay()">
+            Submit Payment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

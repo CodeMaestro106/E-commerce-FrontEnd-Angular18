@@ -52,4 +52,8 @@ export class CartMainComponent {
   goBack() {
     this.router.navigate(['/products']);
   }
+
+  goPayment() {
+    this.router.navigate(['/check-out']);
+  }
 }
