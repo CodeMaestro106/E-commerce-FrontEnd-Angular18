@@ -69,14 +69,16 @@ export class ProductListComponent implements OnInit {
           const filteredProducts = products.filter((product) => {
             const categoryMatch =
               selectedCategoriese.length === 0 ||
-              selectedCategoriese.includes(product.categoryId);
+              selectedCategoriese.includes(
+                parseInt(product.categoryId.toString()),
+              );
             // check if the product name matches the search key
             const searchMatch = searchKey
               ? product.name.toLowerCase().includes(searchKey.toLowerCase())
               : true;
             return categoryMatch && searchMatch;
           });
-          console.log('filteredProducts => ', filteredProducts);
+
           return filteredProducts;
         }),
       )

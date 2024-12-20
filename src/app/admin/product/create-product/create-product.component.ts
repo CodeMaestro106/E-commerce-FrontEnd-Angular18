@@ -31,6 +31,7 @@ export class CreateProductComponent extends BaseComponent implements OnInit {
     description: '',
     price: 0,
     stock: 0,
+    priceId: '',
     imgUrl: '',
     category: '',
     categoryId: 0,

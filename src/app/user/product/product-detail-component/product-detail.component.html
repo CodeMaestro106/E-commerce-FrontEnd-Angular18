@@ -44,7 +44,7 @@
     </div>
 
     <!-- Product Details -->
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="product$ | async as product">
       <h2 class="mb-3">{{ product.name }}</h2>
       <p class="text-muted mb-4">SKU: WH1000XM4</p>
       <div class="mb-3">

@@ -16,8 +16,9 @@ export class ProductService {
       name: data.name,
       description: data.description,
       price: data.price,
-      stock: data.stock.toString(), // Convert stock to string
-      imgUrl: `http://localhost:5000/${data.imgUrl.replace(/\\/g, '/')}`,
+      priceId: data.priceId,
+      stock: data.stock, // Convert stock to string
+      imgUrl: data.imgUrl,
       category: data.Category?.name || '', // Use Category name, fallback to empty string
       categoryId: data.categoryId,
       createdAt: data.createdAt,

@@ -36,7 +36,7 @@
             }
           </div>
         </div>
-        <div class="col-md-8" *ngIf="product$ | async as product">
+        <div class="col-md-8">
           <form (ngSubmit)="onSubmit()" #f="ngForm">
             <div class="form-group">
               <label>Name</label>
@@ -47,7 +47,7 @@
                 required
                 minlength="3"
                 maxlength="100"
-                [(ngModel)]="product.name"
+                [(ngModel)]="tempProduct.name"
                 name="name"
                 #name="ngModel"
                 [ngClass]="{ 'is-invalid': f.submitted && name.errors }"
@@ -73,7 +73,7 @@
                 type="text"
                 class="form-control"
                 id="description"
-                [(ngModel)]="product.description"
+                [(ngModel)]="tempProduct.description"
                 required
                 name="description"
                 #description="ngModel"
@@ -101,7 +101,7 @@
                 class="form-control"
                 id="price"
                 min="0"
-                [(ngModel)]="product.price"
+                [(ngModel)]="tempProduct.price"
                 name="price"
                 required
                 #price="ngModel"
@@ -123,7 +123,7 @@
                 class="form-control"
                 id="Stock"
                 min="1"
-                [(ngModel)]="product.stock"
+                [(ngModel)]="tempProduct.stock"
                 name="Stock"
               />
             </div>

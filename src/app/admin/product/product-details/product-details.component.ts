@@ -16,7 +16,9 @@ import { selectedProductItem } from '../../../store/product/product.selector';
 })
 export class ProductDetailsComponent extends BaseComponent implements OnInit {
   id: number = 0;
-  product$: Observable<Product | undefined>;
+  product$: Observable<Product | undefined> = new Observable<
+    Product | undefined
+  >();
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +26,9 @@ export class ProductDetailsComponent extends BaseComponent implements OnInit {
     injector: Injector,
   ) {
     super(injector);
+  }
+
+  ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.product$ = this.store.select(selectedProductItem(this.id));
     this.product$.subscribe((product) => {
@@ -32,6 +37,4 @@ export class ProductDetailsComponent extends BaseComponent implements OnInit {
 
     console.log(this.product$);
   }
-
-  ngOnInit(): void {}
 }

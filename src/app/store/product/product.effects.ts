@@ -32,6 +32,7 @@ export class ProductEffects {
       switchMap(() =>
         this.productService.getProductList().pipe(
           map((response) => {
+            console.log('get list products', response);
             const processData = response.map((item) => {
               return this.productService.transformToProduct(item);
             });
@@ -94,7 +95,7 @@ export class ProductEffects {
           .updateProduct(action.id, action.product)
           .pipe(
             map((response) => {
-              console.log(response);
+              console.log('update product respones success =>', response);
               const processData =
                 this.productService.transformToProduct(response);
               return updateProductSuccess({ product: processData });

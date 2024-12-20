@@ -135,10 +135,14 @@ export class DashboardComponent {
         }
 
         let filterdProducts = products.filter((product) => {
+          const categoryId = product.categoryId;
+
           // Filter by category
           const matchedCategory =
             selectedCategories.length === 0 ||
-            selectedCategories.includes(product.categoryId);
+            selectedCategories.includes(parseInt(categoryId.toString()));
+
+          console.log(matchedCategory, selectedCategories, product);
 
           // Filter by price
           const matchedPrice = product.price <= filterPrice;

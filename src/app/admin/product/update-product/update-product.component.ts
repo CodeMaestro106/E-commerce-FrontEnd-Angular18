@@ -41,6 +41,19 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
   selectedFile: File | null = null; // Store the selected file
   previewUrl: string | null = null; // URL for the image preview
 
+  tempProduct: Product = {
+    id: 0,
+    name: '',
+    description: '',
+    price: 0,
+    stock: 0,
+    priceId: '',
+    imgUrl: '',
+    category: '',
+    categoryId: 0,
+    createdAt: '',
+    updatedAt: '',
+  };
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -78,6 +91,13 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
     this.errorMessage$ = this.store.select(selectError);
     this.id = this.route.snapshot.params['id'];
     this.product$ = this.store.select(selectedProductItem(this.id));
+
+    this.product$.subscribe((product) => {
+      if (product) {
+        this.tempProduct = { ...product };
+      }
+    });
+
     this.categories$.subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
@@ -98,12 +118,12 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
       .subscribe((selectedCategory) => {
         if (selectedCategory) {
           // Update the category of the product by merging the selectedCategory
-          return this.product$.pipe(
-            map((product) => ({
-              ...product, // Copy existing product properties
-              category: selectedCategory.name, // Update the category
-            })),
-          );
+
+          return {
+            ...this.tempProduct,
+            category: selectedCategory.name,
+            categoryId: selectedCategory.id,
+          };
         }
         return this.product$; // If no selectedCategory, return product$ as is
       });
@@ -111,27 +131,27 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
 
   saveProduct(): void {
     if (this.selectedFile) {
-      this.product$.subscribe((product) => {
-        if (product) {
-          const formData: FormData = new FormData();
+      if (this.tempProduct) {
+        const formData: FormData = new FormData();
 
-          formData.append(
-            'productImage',
-            this.selectedFile!,
-            this.selectedFile!.name,
-          );
-          formData.append('name', product.name);
-          formData.append('description', product.description);
-          formData.append('price', product.price.toString());
-          formData.append('stock', product.stock.toString());
-          formData.append('category', product.category);
+        formData.append(
+          'productImage',
+          this.selectedFile!,
+          this.selectedFile!.name,
+        );
+        formData.append('name', this.tempProduct.name);
+        formData.append('description', this.tempProduct.description);
+        formData.append('price', this.tempProduct.price.toString());
+        formData.append('priceId', this.tempProduct.priceId);
 
-          console.log('update product =>', product.name);
-          this.store.dispatch(
-            updateProductAction({ id: this.id, product: formData }),
-          );
-        }
-      });
+        formData.append('stock', this.tempProduct.stock.toString());
+        formData.append('category', this.tempProduct.category);
+        formData.append('categoryId', this.tempProduct.categoryId.toString());
+
+        this.store.dispatch(
+          updateProductAction({ id: this.id, product: formData }),
+        );
+      }
     } else {
       alert('Please select a product image.');
     }
