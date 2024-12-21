@@ -30,7 +30,7 @@ import { AuthStorageService } from '../../auth/auth.storage.service';
 import { Store } from '@ngrx/store';
 import { selectCartTotalPrice } from '../../store/user-cart/cart.selectors';
 
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -78,8 +78,7 @@ export class CheckoutComponent implements OnInit {
     private authStorageService: AuthStorageService,
     private toastService: ToastrService,
     private store: Store,
-
-    private router: Router,
+    private location: Location,
   ) {}
 
   ngOnInit() {
@@ -134,6 +133,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/products']);
+    this.location.back();
   }
 }

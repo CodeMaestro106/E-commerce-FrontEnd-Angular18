@@ -18,21 +18,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart-main.component.css'],
 })
 export class CartMainComponent {
-  cartItems$: Observable<CartItem[]>;
-  totalPrice$: Observable<number>;
+  cartItems$: Observable<CartItem[]> = new Observable<CartItem[]>();
+  totalPrice$: Observable<number> = new Observable<number>();
 
   constructor(
     private store: Store,
     private location: Location,
     private router: Router,
-  ) {
-    this.cartItems$ = this.store.select(selectCartItems);
-    this.totalPrice$ = this.store.select(selectCartTotalPrice);
-    console.log('history => ', window.history.length);
-  }
+  ) {}
 
   ngOnInit() {
-    console.log('cart history => ', history.state);
+    this.cartItems$ = this.store.select(selectCartItems);
+    this.totalPrice$ = this.store.select(selectCartTotalPrice);
+
+    this.cartItems$.subscribe((cartItems) => {
+      if (!cartItems || cartItems.length === 0) {
+        this.getCartItems();
+      }
+    });
+  }
+
+  private getCartItems() {
     this.store.dispatch(CartActions.getItemsInCart());
   }
 

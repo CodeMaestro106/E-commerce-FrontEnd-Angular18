@@ -31,16 +31,15 @@ export class FavoriteEffects {
       switchMap(() =>
         this.favoriteService.getFavoriteList().pipe(
           map((response) => {
-            const processData = response.map((item) => {
-              return this.productService.transformToProduct(item);
-            });
+            console.log(response);
 
-            return getFavoriteListSuccess({ products: processData });
+            return getFavoriteListSuccess({ products: response });
           }),
           catchError((error) => {
+            console.log(error);
             const errorMessage =
               error?.error?.msg ||
-              'Adding Product info had failed. Please try again.';
+              'Getting wishList Product info had failed. Please try again.';
             this.toastService.error(errorMessage, 'Error');
             return of(actionFavoriteFailure({ error: errorMessage }));
           }),
@@ -59,9 +58,8 @@ export class FavoriteEffects {
         this.favoriteService.addProductToFavorite(action.productId).pipe(
           map((response) => {
             console.log('adding product in wishlist is success', response);
-            const processData = this.productService.transformToProduct(
-              response.product,
-            );
+            const processData =
+              this.productService.transformToProduct(response);
             this.toastService.success('', 'Success');
             return addFavoriteSuccess({ product: processData });
           }),

@@ -1,7 +1,6 @@
 <div class="row">
-  <div class="col-md-9 d-flex align-items-center justify-content-center p-1">
-    <div class="row">
-      <!-- Image Column -->
+  <div class="col-md-8 d-flex align-items-center justify-content-center">
+    <div class="containter row w-100">
       <div class="col-md-2 d-flex justify-content-center align-items-center">
         <img
           [src]="cartItem.Product.imgUrl"
@@ -10,20 +9,17 @@
         />
       </div>
       <div class="col-md-10 d-flex justify-content-center align-items-center">
-        <!-- Product Name Column -->
-        <div class="col d-flex justify-content-center align-items-center m-3">
+        <div class="col-4 d-flex justify-content-center align-items-center m-3">
           <p class="m-0 text-center">
             {{ cartItem.Product.name }}
           </p>
         </div>
 
-        <!-- Product Price Column -->
-        <div class="col d-flex justify-content-center align-items-center m-3">
+        <div class="col-4 d-flex justify-content-center align-items-center m-3">
           <p class="in-stock-box">${{ cartItem.Product.price }}</p>
         </div>
 
-        <!-- Product Stock Column -->
-        <div class="col d-flex justify-content-center align-items-center m-3">
+        <div class="col-4 d-flex justify-content-center align-items-center m-3">
           <p class="in-stock-box">
             {{ cartItem.Product.stock }}
           </p>
@@ -58,7 +54,7 @@
     </div>
   </div>
 
-  <div class="col-md-1 d-flex justify-content-center align-items-center">
+  <div class="col-md-2 d-flex justify-content-center align-items-center">
     <button
       class="btn btn-md btn-outline-danger m-3"
       (click)="removeItemFromCart()"

@@ -30,10 +30,7 @@ export const cartReducer = createReducer(
         description: item.Product.description,
         stock: item.Product.stock,
         price: item.Product.price,
-        imgUrl: `http://localhost:5000/${item.Product.imgUrl.replace(
-          /\\/g,
-          '/',
-        )}`,
+        imgUrl: item.Product.imgUrl,
         categoryId: item.Product.categoryId,
       };
       return {

@@ -36,6 +36,9 @@ export const selectError = createSelector(
 // selector to check if product is in wishlist or not
 export const selectCheckProductInWishList = (id: number) =>
   createSelector(selectFavoriteState, (state: FavoriteState) => {
-    const product = state.products.find((item) => item.id == id);
+    const product = state.products.find((item) => {
+      return item.id == id;
+    });
+
     return product ? true : false;
   });

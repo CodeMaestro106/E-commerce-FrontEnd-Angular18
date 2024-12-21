@@ -1,5 +1,6 @@
 export interface Product {
   id: number;
+  stripe_product_id: string;
   name: string;
   description: string;
   stock: number;

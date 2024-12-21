@@ -13,6 +13,7 @@ export class ProductService {
   transformToProduct(data: any): Product {
     return {
       id: data.id,
+      stripe_product_id: data.stripe_product_id,
       name: data.name,
       description: data.description,
       price: data.price,

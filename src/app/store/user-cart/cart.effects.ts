@@ -28,6 +28,7 @@ export class CartEffect {
           .pipe(
             // Call Server via service here
             map((response) => {
+              console.log(response);
               this.toastService.success('', 'Success');
               return getItemsInCartSuccess({ cartitems: response });
             }),
