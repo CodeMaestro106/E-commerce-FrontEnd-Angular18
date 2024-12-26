@@ -36,7 +36,6 @@ export class FavoriteEffects {
             return getFavoriteListSuccess({ products: response });
           }),
           catchError((error) => {
-            console.log(error);
             const errorMessage =
               error?.error?.msg ||
               'Getting wishList Product info had failed. Please try again.';

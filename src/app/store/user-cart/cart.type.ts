@@ -6,13 +6,18 @@ export interface CartItem {
 }
 
 export interface Product {
-  id: string;
+  id: number;
+  stripeProductId: string;
   name: string;
   description: string;
   stock: number;
   price: number;
+  priceId: string;
   imgUrl: string;
-  categoryId: string;
+  category: string;
+  categoryId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Define type for your reducer or selectors.

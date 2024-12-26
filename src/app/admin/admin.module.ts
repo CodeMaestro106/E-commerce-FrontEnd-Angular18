@@ -43,6 +43,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrderListComponent } from './order/order-list/order-list.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 
 const routes: Routes = [
   {
@@ -69,6 +71,10 @@ const routes: Routes = [
       { path: 'admin/cart', component: CartListComponent },
       { path: 'admin/cart-details/:id', component: CartDetailsComponent },
 
+      // order
+      { path: 'admin/order', component: OrderListComponent },
+      { path: 'admin/order-details/:id', component: OrderDetailComponent },
+
       // user
       { path: 'admin/users', component: UserListComponent },
     ],
@@ -90,6 +96,11 @@ const routes: Routes = [
     // cart
     CartListComponent,
     CartDetailsComponent,
+
+    // order
+    OrderListComponent,
+    OrderDetailComponent,
+
     // User
     UserListComponent,
   ],

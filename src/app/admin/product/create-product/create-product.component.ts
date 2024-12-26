@@ -27,7 +27,7 @@ import { getCategoryListAction } from '../../../store/category/category.actions'
 export class CreateProductComponent extends BaseComponent implements OnInit {
   product: Product = {
     id: 0,
-    stripe_product_id: '',
+    stripeProductId: '',
     name: '',
     description: '',
     price: 0,

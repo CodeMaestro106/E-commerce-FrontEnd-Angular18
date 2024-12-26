@@ -15,8 +15,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent }, // publice login route
   { path: 'register', component: RegisterComponent },
   { path: 'verify-otp', component: OtpComponent },
-  { path: '', component: LandingComponent, pathMatch: 'full' },
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  // { path: '', component: LandingComponent, pathMatch: 'full' },
+  // { path: '', pathMatch: 'full', redirectTo: 'login' },
 ];
 
 @NgModule({

@@ -13,14 +13,14 @@ export class ProductService {
   transformToProduct(data: any): Product {
     return {
       id: data.id,
-      stripe_product_id: data.stripe_product_id,
+      stripeProductId: data.stripeProductId,
       name: data.name,
       description: data.description,
       price: data.price,
       priceId: data.priceId,
       stock: data.stock, // Convert stock to string
       imgUrl: data.imgUrl,
-      category: data.Category?.name || '', // Use Category name, fallback to empty string
+      category: data.category || '', // Use Category name, fallback to empty string
       categoryId: data.categoryId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,

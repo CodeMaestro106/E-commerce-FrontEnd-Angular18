@@ -32,6 +32,7 @@ export class CartMainComponent {
     this.totalPrice$ = this.store.select(selectCartTotalPrice);
 
     this.cartItems$.subscribe((cartItems) => {
+      console.log('cart items in front cart =>', cartItems);
       if (!cartItems || cartItems.length === 0) {
         this.getCartItems();
       }
@@ -39,6 +40,7 @@ export class CartMainComponent {
   }
 
   private getCartItems() {
+    console.log('get cart Items');
     this.store.dispatch(CartActions.getItemsInCart());
   }
 

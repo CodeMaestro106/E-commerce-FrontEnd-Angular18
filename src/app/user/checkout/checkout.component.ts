@@ -28,9 +28,13 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthStorageService } from '../../auth/auth.storage.service';
 
 import { Store } from '@ngrx/store';
-import { selectCartTotalPrice } from '../../store/user-cart/cart.selectors';
+import {
+  selectCartItems,
+  selectCartTotalPrice,
+} from '../../store/user-cart/cart.selectors';
 
 import { Location } from '@angular/common';
+import { CheckoutService } from '../../store/checkout/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -77,6 +81,7 @@ export class CheckoutComponent implements OnInit {
     private stripeService: StripeService,
     private authStorageService: AuthStorageService,
     private toastService: ToastrService,
+    private checkoutService: CheckoutService,
     private store: Store,
     private location: Location,
   ) {}
@@ -91,45 +96,51 @@ export class CheckoutComponent implements OnInit {
     this.totalPrice$.subscribe((num) => (this.totalPrice = num));
   }
 
+  // Using paymnet Intent
+  // pay(): void {
+  //   if (this.paymentForm.valid) {
+  //     const { name, amount } = this.paymentForm.value;
+  //     console.log(amount);
+  //     this.createPaymentIntent(amount)
+  //       .pipe(
+  //         switchMap((pi: any) => {
+  //           return this.stripeService.confirmCardPayment(pi.clientSecret, {
+  //             payment_method: {
+  //               card: this.card.element,
+  //               billing_details: {
+  //                 name: name,
+  //               },
+  //             },
+  //           });
+  //         }),
+  //       )
+  //       .subscribe((result) => {
+  //         if (result.error) {
+  //           // Show error to your customer (e.g., insufficient funds)
+  //           this.toastService.error(result.error.message, 'Error');
+  //         } else {
+  //           // The payment has been processed!
+  //           if (result.paymentIntent.status === 'succeeded') {
+  //             // Show a success message to your customer
+  //             this.toastService.success('Payment successful', 'Success');
+  //           }
+  //         }
+  //       });
+  //   } else {
+  //     console.log(this.paymentForm.valid);
+  //   }
+  // }
+
   pay(): void {
     if (this.paymentForm.valid) {
-      const { name, amount } = this.paymentForm.value;
-      console.log(amount);
-      this.createPaymentIntent(amount)
-        .pipe(
-          switchMap((pi: any) => {
-            return this.stripeService.confirmCardPayment(pi.clientSecret, {
-              payment_method: {
-                card: this.card.element,
-                billing_details: {
-                  name: name,
-                },
-              },
-            });
-          }),
-        )
-        .subscribe((result) => {
-          if (result.error) {
-            // Show error to your customer (e.g., insufficient funds)
-            this.toastService.error(result.error.message, 'Error');
-          } else {
-            // The payment has been processed!
-            if (result.paymentIntent.status === 'succeeded') {
-              // Show a success message to your customer
-              this.toastService.success('Payment successful', 'Success');
-            }
-          }
-        });
-    } else {
-      console.log(this.paymentForm.valid);
+      this.store.select(selectCartItems).subscribe((cartItmes) => {
+        console.log('checkout cartItmes', cartItmes);
+        if (!cartItmes || cartItmes.length == 0) {
+          return;
+        }
+        this.checkoutService.checkout(cartItmes);
+      });
     }
-  }
-
-  createPaymentIntent(amount: number): Observable<PaymentIntent> {
-    return this.http.post<PaymentIntent>(
-      `${env.baseUrl}pay/create-payment-intent`,
-      { amount },
-    );
   }
 
   goBack(): void {

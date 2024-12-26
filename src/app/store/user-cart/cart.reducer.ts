@@ -22,16 +22,21 @@ export const cartReducer = createReducer(
 
   // get Item from cart reducer
   on(CartActions.getItemsInCartSuccess, (store: CartState, result) => {
-    console.log(result);
+    console.log('get Items In cart Success result =>', result);
     const getCartItems = result.cartitems.map((item) => {
       const product: Product = {
         id: item.Product.id,
+        stripeProductId: item.Product.stripeProductId,
         name: item.Product.name,
         description: item.Product.description,
-        stock: item.Product.stock,
         price: item.Product.price,
+        priceId: item.Product.priceId,
+        stock: item.Product.stock, // Convert stock to string
         imgUrl: item.Product.imgUrl,
+        category: item.Product.category || '', // Use Category name, fallback to empty string
         categoryId: item.Product.categoryId,
+        createdAt: item.Product.createdAt,
+        updatedAt: item.Product.updatedAt,
       };
       return {
         id: item.id,

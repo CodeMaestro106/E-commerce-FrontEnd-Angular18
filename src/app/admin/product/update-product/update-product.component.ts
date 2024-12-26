@@ -43,7 +43,7 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
 
   tempProduct: Product = {
     id: 0,
-    stripe_product_id: '',
+    stripeProductId: '',
     name: '',
     description: '',
     price: 0,

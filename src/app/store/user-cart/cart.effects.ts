@@ -9,6 +9,7 @@ import {
   getItemsInCartSuccess,
   getItemsInCartFailure,
   itemAddedFailure,
+  navigateToCart,
 } from './cart.actions';
 import { CartService } from './cart.service';
 import { EMPTY } from 'rxjs';
@@ -29,6 +30,7 @@ export class CartEffect {
             // Call Server via service here
             map((response) => {
               console.log(response);
+
               this.toastService.success('', 'Success');
               return getItemsInCartSuccess({ cartitems: response });
             }),
@@ -58,6 +60,10 @@ export class CartEffect {
             return getItemsInCartSuccess({ cartitems: response });
           }),
           catchError((error) => {
+            console.log(error.error);
+            if (error.error.msg === 'Cart not found') {
+              return of(navigateToCart());
+            }
             const errorMessage =
               error?.error?.msg ||
               'Geting Cart info had failed. Please try again.';
@@ -70,14 +76,21 @@ export class CartEffect {
     ),
   );
 
-  // Navigate to cart page after succesful addition
-  // have a mistake!
+  // Trigger Navigation after Success
+  navigateToCartTrigger$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(getItemsInCartSuccess),
+      map(() => navigateToCart()), // Dispatch navigation action
+    ),
+  );
+
+  // Navigate to Cart Page
   navigateToCart$ = createEffect(
     () =>
       inject(Actions).pipe(
-        ofType(getItemsInCartSuccess),
+        ofType(navigateToCart),
         tap(() => {
-          //this.router.navigate(['/cart']);
+          // this.router.navigate(['/cart']);
         }),
       ),
     { dispatch: false },

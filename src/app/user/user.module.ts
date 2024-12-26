@@ -40,6 +40,10 @@ import { CheckoutComponent } from './checkout/checkout.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxStripeModule } from 'ngx-stripe';
+import { CheckoutSuccessComponent } from './checkout/checkout-success/checkout-success.component';
+import { CheckoutCancelComponent } from './checkout/checkout-cancel/checkout-cancel.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 
 const routes: Routes = [
   { path: 'cart', component: CartMainComponent },
@@ -47,9 +51,28 @@ const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'model-view', component: ModelViewerComponent },
+
   {
     path: 'check-out',
     component: CheckoutComponent,
+  },
+  {
+    path: 'check-out/success/:session_id',
+    component: CheckoutSuccessComponent,
+  },
+  {
+    path: 'check-out/cancel',
+    component: CheckoutCancelComponent,
+  },
+
+  {
+    path: 'orders',
+    component: OrderListComponent,
+  },
+
+  {
+    path: 'orders/:session_id',
+    component: OrderDetailComponent,
   },
 ];
 

@@ -8,36 +8,36 @@ import { CartItem } from './cart.type';
 
 export const addItemInCart = createAction(
   '[CART] add new Item in cart',
-  props<{ productId: number; quantity: number }>()
+  props<{ productId: number; quantity: number }>(),
 );
 
 export const itemAddedSuccess = createAction(
   '[CART] Item added to cart successfully', // Action type, usually scoped to a feature like 'Auth'
-  props<{ cartItem: CartItem }>() // Payload for login credentials
+  props<{ cartItem: CartItem }>(), // Payload for login credentials
 );
 
 export const itemAddedFailure = createAction(
   '[CART] Item added to cart failure', // Action type, usually scoped to a feature like 'Auth'
-  props<{ error: string }>() // Payload for login credentials
+  props<{ error: string }>(), // Payload for login credentials
 );
 
 export const getItemsInCart = createAction(
-  '[CART] get Cart Items from database'
+  '[CART] get Cart Items from database',
 );
 
 export const getItemsInCartSuccess = createAction(
   '[CART] get Cart Items from database success',
-  props<{ cartitems: CartItem[] }>()
+  props<{ cartitems: CartItem[] }>(),
 );
 export const getItemsInCartFailure = createAction(
   '[Cart] Get Cart Items Failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );
 
 // Action for failed login attempt
 export const removeItemInCart = createAction(
   '[CART] Remove item from cart',
-  props<{ cartItem: CartItem }>() // Payload for the error message
+  props<{ cartItem: CartItem }>(), // Payload for the error message
 );
 
 /*
@@ -47,11 +47,14 @@ Cart page Action
 // Action for successful login
 export const reduceNumItemInCart = createAction(
   '[CART] Reduce number of item in cart',
-  props<{ cartItem: CartItem }>() // Payload containing user data and auth token
+  props<{ cartItem: CartItem }>(), // Payload containing user data and auth token
 );
 
 // Action for failed login attempt
 export const increaseNumItemInCart = createAction(
   '[CART] Increase number of item in cart',
-  props<{ cartItem: CartItem }>() // Payload for the error message
+  props<{ cartItem: CartItem }>(), // Payload for the error message
 );
+
+// New Action for Navigation
+export const navigateToCart = createAction('[Cart] Navigate to Cart');
