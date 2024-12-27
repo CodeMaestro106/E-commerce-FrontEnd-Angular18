@@ -8,7 +8,7 @@ import { Injector } from '@angular/core';
 
 import { BaseComponent } from '../../../common/base/BaseComponent';
 
-import { selectOrderItem } from '../../../store/order/order.selector';
+import { OrderService } from '../../../store/order/order.service';
 
 @Component({
   selector: 'order-detail',
@@ -18,17 +18,24 @@ import { selectOrderItem } from '../../../store/order/order.selector';
 })
 export class OrderDetailComponent extends BaseComponent implements OnInit {
   id: number = 0;
-  orderItems$!: Observable<OrderItem[] | undefined>;
+  orderItems: OrderItem[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private store: Store,
+    private orderService: OrderService,
     injector: Injector,
   ) {
     super(injector);
     this.id = this.route.snapshot.params['id'];
 
-    this.orderItems$ = this.store.select(selectOrderItem(this.id));
+    console.log(this.id);
+
+    this.orderService
+      .getOrderBySessionId(this.id.toString())
+      .subscribe((data) => {
+        this.orderItems = data.OrderItems;
+      });
   }
 
   ngOnInit(): void {}

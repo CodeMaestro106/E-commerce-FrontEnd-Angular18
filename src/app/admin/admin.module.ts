@@ -45,6 +45,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { orderFeatureKey, orderReducer } from '../store/order/order.reducer';
+import { OrderEffects } from '../store/order/order.effects';
 
 const routes: Routes = [
   {
@@ -124,6 +126,9 @@ const routes: Routes = [
 
     StoreModule.forFeature(productFeatureKey, productReducer),
     EffectsModule.forFeature([ProductEffects]),
+
+    StoreModule.forFeature(orderFeatureKey, orderReducer),
+    EffectsModule.forFeature([OrderEffects]),
 
     MatPaginatorModule, // Add MatPaginatorModule here
     MatTableModule, // Add MatTableModule if you're using tables

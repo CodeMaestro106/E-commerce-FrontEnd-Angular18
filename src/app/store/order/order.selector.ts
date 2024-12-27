@@ -13,11 +13,11 @@ export const selectOrders = createSelector(
   },
 );
 
-export const selectOrderItem = (id: number) =>
-  createSelector(selectOrderState, (state: OrderState) => {
-    const order = state.orders.find((item) => item.id == id);
-    return order?.orderItems;
-  });
+// export const selectOrderItem = (id: number) =>
+//   createSelector(selectOrderState, (state: OrderState) => {
+//     const order = state.orders.find((item) => item.id == id);
+//     return order?.orderItems;
+//   });
 
 // selector to get the loading state
 export const selectLoading = createSelector(

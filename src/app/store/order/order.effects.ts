@@ -11,28 +11,25 @@ import {
 import { OrderService } from './order.service';
 
 @Injectable()
-export class CartEffects {
-  getCartListEffect$ = createEffect(() =>
+export class OrderEffects {
+  getOrderListEffect$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(getOrderListAction),
       tap(() => {
-        console.log('cart list effect');
+        console.log('Order list effect');
       }),
       switchMap(() =>
         this.orderService.getAllOrderInfo().pipe(
           map((response) => {
-            console.log('get cart list ', response);
+            console.log('get Order list ', response);
 
-            const processData = response.map((item) => {
-              return this.orderService.transformToOrder(item);
-            });
-
-            return getOrderListSuccess({ orders: processData });
+            return getOrderListSuccess({ orders: response });
           }),
           catchError((error) => {
+            console.log(error.error);
             const errorMessage =
               error?.error?.msg ||
-              'Getting Cart info had failed. Please try again.';
+              'Getting Order info had failed. Please try again.';
             return of(getOrderActionFailure({ error: errorMessage }));
           }),
         ),

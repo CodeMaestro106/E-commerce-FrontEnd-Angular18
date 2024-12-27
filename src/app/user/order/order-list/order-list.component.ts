@@ -40,7 +40,7 @@ export class OrderListComponent {
   }
 
   goBack(): void {
-    this.router.navigate(['/products']);
+    this.router.navigate(['products']);
   }
 
   orderDetails(session_id: string) {
