@@ -27,9 +27,9 @@ import { ProductCardComponentComponent } from './product/product-card-component/
 
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Product3dViewComponent } from './product/product-3d-view/product-3d-view.component';
+// import { Product3dViewComponent } from './product/product-3d-view/product-3d-view.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ModelViewerComponent } from './product/model-viewer/model-viewer.component';
+// import { ModelViewerComponent } from './product/model-viewer/model-viewer.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import {
   favoriteFeatureKey,
@@ -50,7 +50,7 @@ const routes: Routes = [
   { path: 'favorite', component: FavoriteComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'model-view', component: ModelViewerComponent },
+  // { path: 'model-view', component: ModelViewerComponent },
 
   {
     path: 'check-out',
@@ -83,7 +83,7 @@ const routes: Routes = [
     ProductDetailComponent,
     ProfileComponent,
     FavoriteComponent,
-    ModelViewerComponent,
+    // ModelViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -103,7 +103,7 @@ const routes: Routes = [
     CartItemComponent,
     ProductCardComponentComponent,
 
-    Product3dViewComponent,
+    // Product3dViewComponent,
   ],
 })
 export class UserModule {}
