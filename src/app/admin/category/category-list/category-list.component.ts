@@ -14,6 +14,8 @@ import { ModalService } from '../../../common/modal/service/modal.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { PageEvent } from '@angular/material/paginator';
 
+import { take } from 'rxjs';
+
 @Component({
   selector: 'app-category-list',
   standalone: false,
@@ -34,7 +36,8 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.categories$);
-    this.categories$.subscribe((categories) => {
+
+    this.categories$.pipe(take(1)).subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
       }

@@ -20,6 +20,8 @@ import * as CartAtions from '../../store/user-cart//cart.actions';
 import * as FavoriteActions from '../../store/favorite/favorite.actions';
 import { ToastrService } from 'ngx-toastr';
 
+import { take } from 'rxjs';
+
 export enum OrderItem {
   NEWEST = 'Newest',
   PRICE_ASC = 'High to Low',
@@ -83,12 +85,12 @@ export class DashboardComponent {
     this.categories$ = this.store.select(selectCategoryItems);
     this.products$ = this.store.select(selectProductItems);
 
-    this.products$.subscribe((products) => {
+    this.products$.pipe(take(1)).subscribe((products) => {
       if (!products || products.length === 0) {
         this.getProducts();
       }
     });
-    this.categories$.subscribe((categories) => {
+    this.categories$.pipe(take(1)).subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
       }

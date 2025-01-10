@@ -22,6 +22,7 @@ import {
   selectedCategoryItem,
 } from '../../../store/category/category.selector';
 import { updateProductAction } from '../../../store/product/product.actions';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-update-product',
@@ -99,7 +100,7 @@ export class UpdateProductComponent extends BaseComponent implements OnInit {
       }
     });
 
-    this.categories$.subscribe((categories) => {
+    this.categories$.pipe(take(1)).subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
       }

@@ -10,6 +10,7 @@ import { BaseComponent } from '../../../common/base/BaseComponent';
 
 import { selectOrders } from '../../../store/order/order.selector';
 import { getOrderListAction } from '../../../store/order/order.actions';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'order-list',
@@ -31,7 +32,7 @@ export class OrderListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orders$.subscribe((orders) => {
+    this.orders$.pipe(take(1)).subscribe((orders) => {
       if (!orders || orders.length === 0) {
         this.getOrderInfo();
       }

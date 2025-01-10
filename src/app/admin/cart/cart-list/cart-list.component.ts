@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { getCartListAction } from '../../../store/cart/cart.actions';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { selectCarts } from '../../../store/cart/cart.selector';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-cart-list',
@@ -29,7 +30,7 @@ export class CartListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.carts$.subscribe((carts) => {
+    this.carts$.pipe(take(1)).subscribe((carts) => {
       if (!carts || carts.length === 0) {
         this.getCartInfo();
       }

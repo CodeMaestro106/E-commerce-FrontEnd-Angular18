@@ -12,6 +12,7 @@ import { CheckoutComponent } from './user/checkout/checkout.component';
 
 const routes: Routes = [
   { path: 'products', component: DashboardComponent }, // Public user profile route
+
   { path: 'login', component: LoginComponent }, // publice login route
   { path: 'register', component: RegisterComponent },
   { path: 'verify-otp', component: OtpComponent },

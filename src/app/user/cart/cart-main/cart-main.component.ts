@@ -11,6 +11,7 @@ import * as CartActions from '../../../store/user-cart/cart.actions';
 
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -31,7 +32,7 @@ export class CartMainComponent {
     this.cartItems$ = this.store.select(selectCartItems);
     this.totalPrice$ = this.store.select(selectCartTotalPrice);
 
-    this.cartItems$.subscribe((cartItems) => {
+    this.cartItems$.pipe(take(1)).subscribe((cartItems) => {
       console.log('cart items in front cart =>', cartItems);
       if (!cartItems || cartItems.length === 0) {
         this.getCartItems();

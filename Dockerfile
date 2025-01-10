@@ -1,6 +1,6 @@
 # Build stage
 FROM node:20 AS build
-WORKDIR /app
+WORKDIR /
 COPY package*.json ./
 RUN npm install
 COPY . .

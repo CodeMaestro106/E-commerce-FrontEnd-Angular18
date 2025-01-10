@@ -11,7 +11,7 @@ import {
 import { Injector } from '@angular/core';
 import { BaseComponent } from '../../../common/base/BaseComponent';
 import { ModalService } from '../../../common/modal/service/modal.service';
-
+import { take } from 'rxjs';
 @Component({
   selector: 'app-user-list',
   standalone: false,
@@ -33,7 +33,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     console.log('component =>', this.users$);
-    this.users$.subscribe((users) => {
+    this.users$.pipe(take(1)).subscribe((users) => {
       if (!users || users.length === 0) {
         this.getAllUsers();
       }

@@ -18,7 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PageEvent } from '@angular/material/paginator';
 import { Category } from '../../../store/category/category.type';
 import { ModalService } from '../../../common/modal/service/modal.service';
-
+import { take } from 'rxjs';
 @Component({
   selector: 'app-product-list',
   standalone: false,
@@ -50,13 +50,13 @@ export class ProductListComponent implements OnInit {
       this.updatePaginatedData();
     });
 
-    this.products$.subscribe((products) => {
+    this.products$.pipe(take(1)).subscribe((products) => {
       if (!products || products.length === 0) {
         console.log('get products');
         this.getProducts();
       }
     });
-    this.categories$.subscribe((categories) => {
+    this.categories$.pipe(take(1)).subscribe((categories) => {
       if (!categories || categories.length === 0) {
         this.getCategories();
       }
